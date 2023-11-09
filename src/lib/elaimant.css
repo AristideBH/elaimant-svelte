@@ -1,8 +1,14 @@
-.elaimant-wrapper {
-    width: fit-content;
-    height: auto;
+.elaimant {
+	width: fit-content;
+	height: auto;
+	position: relative;
 }
-.elaimant-child {
-    transition-property: transform;
-    transition-timing-function: ease-out;
+
+.elaimant > .attractionZone {
+	border-radius: 50vh;
+	border: 1px dashed grey;
+	z-index: -1;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
