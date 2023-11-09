@@ -1,0 +1,9 @@
+.elaimant-wrapper {
+    width: fit-content;
+    height: auto;
+}
+.elaimant-child {
+    transition-property: transform;
+    transition-timing-function: ease-out;
+    /* transition-duration: 300ms; */
+}

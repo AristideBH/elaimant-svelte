@@ -1,3 +1,16 @@
-<h1>Welcome to your library project</h1>
-<p>Create your package using @sveltejs/package and preview/showcase your work with SvelteKit</p>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import Elaimant from '$lib';
+</script>
+
+<Elaimant options={{ speed: 'FAST', debug: true, dampenAmount: 5 }} let:attracted>
+	<span>a</span>
+</Elaimant>
+
+<style>
+	span {
+		display: flex;
+		width: 100px;
+		height: 100px;
+		border: 1px solid red;
+	}
+</style>
