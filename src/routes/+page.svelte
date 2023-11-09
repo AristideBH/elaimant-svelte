@@ -2,15 +2,6 @@
 	import Elaimant from '$lib';
 </script>
 
-<Elaimant options={{ speed: 'FAST', debug: true, dampenAmount: 5 }} let:attracted>
-	<span>a</span>
+<Elaimant options={{ debug: true }}>
+	<button>is attracted</button>
 </Elaimant>
-
-<style>
-	span {
-		display: flex;
-		width: 100px;
-		height: 100px;
-		border: 1px solid red;
-	}
-</style>

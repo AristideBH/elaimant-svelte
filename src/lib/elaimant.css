@@ -5,5 +5,4 @@
 .elaimant-child {
     transition-property: transform;
     transition-timing-function: ease-out;
-    /* transition-duration: 300ms; */
 }

@@ -1,5 +1,4 @@
 import '$lib/elaimant.css'
-import type { ActionReturn } from 'svelte/action';
 
 // TYPES AND DEFINITIONS
 export enum Speed {
@@ -25,11 +24,6 @@ function getSpeedValue(speedKey: keyof typeof Speed): string {
     return Speed[speedKey];
 }
 
-interface Attributes {
-    options?: ElaimantOptions;
-    'on:attracted': (e: CustomEvent<boolean>) => void;
-}
-
 
 // DEFAULT PARAMETERS
 export const defaults: Mandatory<ElaimantOptions> = {
@@ -39,15 +33,18 @@ export const defaults: Mandatory<ElaimantOptions> = {
     debug: false
 }
 
+
+// ACTION
 export function elaimant(
     targetNode: HTMLElement,
     elaimantOptions: ElaimantOptions = defaults
-): ActionReturn<ElaimantOptions, Attributes> {
+) {
     const options: Mandatory<ElaimantOptions> = { ...defaults, ...elaimantOptions }
     const { debug } = options
-    targetNode.classList.add("elaimant-wrapper")
+    let animationFrameId: null | number = null;
+    let attracted = false;
 
-    // if (debug) console.log("🧲 Options:", options);
+    targetNode.classList.add("elaimant-wrapper")
 
     // VALIDATIONS
     if (targetNode.children.length == 0) {
@@ -65,13 +62,15 @@ export function elaimant(
             );
         return;
     }
+    if (debug) console.log("🧲 Options:", options);
+
 
     const child = targetNode.children[0] as HTMLElement;
     child.classList.add("elaimant-child");
 
 
-    let animationFrameId: null | number = null;
     function AnimateElaimant(event: MouseEvent) {
+
         if (animationFrameId) return; // If there's already a scheduled animation frame, exit
 
         animationFrameId = requestAnimationFrame(() => {
@@ -84,14 +83,16 @@ export function elaimant(
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < options.triggerDist) {
-                // if (debug) console.log("🧲 Under mouse influence");
-                targetNode.dispatchEvent(new CustomEvent('attracted', { detail: 'hello' }));
+                if (debug) console.log("🧲 Under mouse influence", attracted);
+                attracted = true
 
                 const translateX = dx / options.dampenAmount;
                 const translateY = dy / options.dampenAmount;
                 child.style.transform = `translate(${translateX}px, ${translateY}px)`;
             } else {
                 child.style.transform = `translate(0px, 0px)`;
+                attracted = false
+
             }
 
             animationFrameId = null; // Reset animation frame ID
@@ -100,18 +101,13 @@ export function elaimant(
 
     window.addEventListener("mousemove", AnimateElaimant);
 
-
-    // targetNode.addEventListener('mouseenter', () => {
-    //     if (debug) console.log("🧲 locked");
-    // })
-    // targetNode.addEventListener('mouseleave', () => {
-    //     if (debug) console.log("🧲 release");
-    // })
-
     return {
+        update(attracted: boolean) {
+            console.log(attracted);
+        },
         destroy() {
             window.removeEventListener('mousemove', AnimateElaimant)
-        }
+        }, attracted
     };
 }
 
