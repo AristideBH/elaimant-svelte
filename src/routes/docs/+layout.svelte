@@ -38,7 +38,7 @@
 </script>
 
 <svelte:head>
-	<title>Coulisse - Documentation</title>
+	<title>Elaimant - Documentation</title>
 </svelte:head>
 
 <slot />

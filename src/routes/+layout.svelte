@@ -1,6 +1,6 @@
 <script>
 	import '../app.postcss';
-	import { ModeWatcher, toggleMode } from 'mode-watcher';
+	import { ModeWatcher } from 'mode-watcher';
 	import { Button } from '$lib/components/ui/button';
 	import { Github, Book } from 'lucide-svelte';
 	import { page } from '$app/stores';
@@ -31,7 +31,6 @@
 			<Github class="w-4 h-4 " />
 		</Button>
 	</nav>
-	<!-- <Button variant="outline" size="icon" on:click={toggleMode}><SunMoon /></Button> -->
 </header>
 
 <main class="py-24 grow">

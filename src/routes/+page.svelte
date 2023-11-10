@@ -4,6 +4,10 @@
 	import { ArrowDownWideNarrow } from 'lucide-svelte';
 </script>
 
+<svelte:head>
+	<title>Elaimant for Sveltekit</title>
+</svelte:head>
+
 <section class="flex flex-col items-start gap-4">
 	<p class="max-w-2xl lead text-balance">
 		Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut consequatur praesentium tenetur
