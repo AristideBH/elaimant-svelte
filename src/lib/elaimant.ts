@@ -15,6 +15,11 @@ export type Mandatory<T> = {
     [K in keyof T]-?: T[K];
 };
 
+interface Attributes {
+    'on:attracted': (e: CustomEvent<boolean>) => void;
+    'on:released': (e: CustomEvent<boolean>) => void;
+}
+
 export type ElaimantOptions = {
     triggerDist?: number;
     speed?: keyof typeof Speeds;
@@ -22,12 +27,8 @@ export type ElaimantOptions = {
     dampenAmount?: number;
     debug?: boolean,
     attractedClass?: string,
-    easing?: string
-}
-
-interface Attributes {
-    'on:attracted': (e: CustomEvent<boolean>) => void;
-    'on:released': (e: CustomEvent<boolean>) => void;
+    easing?: string,
+    mouseOnly: boolean
 }
 
 
@@ -39,7 +40,8 @@ export const defaults: Mandatory<ElaimantOptions> = {
     dampenAmount: 2,
     debug: false,
     attractedClass: "attracted",
-    easing: "cubic-bezier(0.2, 0.5, 0.5, 1)"
+    easing: "cubic-bezier(0.2, 0.5, 0.5, 1)",
+    mouseOnly: true
 }
 
 
@@ -52,6 +54,8 @@ export function elaimant(
 ): ActionReturn<ElaimantOptions, Attributes> {
 
     const options: Mandatory<ElaimantOptions> = { ...defaults, ...elaimantOptions };
+    if (!validateSlot(node, options)) return {};
+
     const slotted = node.children[0] as HTMLElement;
     const slottedSize = {
         width: slotted.getBoundingClientRect().width,
@@ -60,8 +64,6 @@ export function elaimant(
 
     let isAttracted = false;
     let isReleased = true;
-
-    if (!validateSlot(node, options)) return {};
 
     if (options.debug) {
         CreateAttractionZone(options, slottedSize, node)
@@ -86,9 +88,14 @@ export function elaimant(
         }
     }
 
-    if (window.matchMedia('(hover: hover)').matches) {
-        // The device has a mouse input, so add the mousemove event listener
+    if (options.mouseOnly) {
+        if (window.matchMedia('(hover: hover)').matches) {
+            // The device has a mouse input, so add the mousemove event listener
+            window.addEventListener("mousemove", handleMouse);
+        }
+    } else {
         window.addEventListener("mousemove", handleMouse);
+
     }
 
     return {
