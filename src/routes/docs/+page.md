@@ -2,85 +2,128 @@
 
 Use your preferred node package manager.
 
-`npm i @arisbh/coulisse`
+`npm i @arisbh/elaimant`
 
-`pnpm add @arisbh/coulisse`
+`pnpm add @arisbh/elaimant`
 
-`yarn add @arisbh/coulisse`
+`yarn add @arisbh/elaimant`
 
 ## Usage
 
-- Import the `coulisse` and `onMount`,
-- Define an emtpy array to hold your scrolling elements, here named `poulies`.
-- In your markup, bind as many scrolling elements as you like to the array.
-- Run coulisse inside onMount, passing the array.
+Import the `Elaimant` component, and wrap your content with it.
 
 ```svelte
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import coulisse from '@arisbh/coulisse';
-
-	let poulies: Array<HTMLElement> = [];
-
-	onMount(() => coulisse(poulies));
+	import Elaimant from '@arisbh/elaimant';
 </script>
 
-<div class="overflow-auto" bind:this={poulies[0]}>
-	<!-- ... -->
-</div>
-<div class="overflow-auto" bind:this={poulies[1]}>
-	<!-- ... -->
-</div>
+<Elaimant>
+	<!-- ... Your content -->
+</Elaimant>
 ```
 
-Note that we're passing a position to the array. Please make sure you're incrementing them properly.
+The component is designed to only receive **one** child element, and doesn't accept just text node. Some checks are in place, and Elaimant will not start otherwise.
 
-You can pass as many poulies as you like !
+Make sure your content is inside any tag !
 
 ## Options
 
 To pass options, you have two solutions.
 
-Directly inside the `coulisse` method :
+Directly inside the `Elaimant` component, with the options prop (Typescript autosuggestion enabled) :
 
-```js
-coulisse(poulies, {
-	decimal: 1,
-	direction: 'y',
-	bindBody: false,
-	debug: true
-});
+```svelte
+<Elaimant
+	options={{
+		triggerDist: 75,
+		speed: 'MEDIUM',
+		mode: 'circle',
+		dampenAmount: 2.5
+		//...
+	}}
+>
+	<!-- ... Your content -->
+</Elaimant>
 ```
 
-Or construct an object with the type `coulisseOptions` :
+Or construct an object with the type `ElaimantOptions`, and use it inside the component :
 
 ```ts
-import { coulisse, type CoulisseOptions } from '@arisbh/coulisse';
+	import Elaimant, type { ElaimantOptions } from '@arisbh/elaimant';
+	const Options: ElaimantOptions = {
+		triggerDist: 75,
+		speed: 'MEDIUM',
+		mode: 'circle',
+		dampenAmount: 2.5;
+		//...
+	}
+```
 
-const options: CoulisseOptions = {
-	decimal: 1,
-	direction: 'y',
-	bindBody: false,
-	debug: true
-};
-
-coulisse(poulies, options);
+```svelte
+<Elaimant {options}>
+	<!-- ... Your content -->
+</Elaimant>
 ```
 
 Here are the default options when none are passed to the coulisse initialization.
 
-| Props       | Default    | Type                 | Description                                                       |
-| ----------- | ---------- | -------------------- | ----------------------------------------------------------------- |
-| `direction` | `'both'  ` | `'y', 'x' or 'both'` | This defines the allowed axis for the syncronization              |
-| `bindBody`  | `true`     | `boolean`            | Will the scrolling syncronization applies to the the body element |
-| `decimal`   | `3`        | `1, 2, 3, 4 or 5`    | This defines precision of the calculated percentage               |
-| `debug`     | `false`    | `boolean`            | Check your console with this on to get more info on your setup    |
+| Props            | Default       | Type                                                     | Description                                                       |
+| ---------------- | ------------- | -------------------------------------------------------- | ----------------------------------------------------------------- |
+| `triggerDist`    | `75 `         | `number`                                                 | This defines the allowed axis for the syncronization              |
+| `speed`          | `'MEDIUM'`    | `'SNAIL'`, `'SLOW'`, `'MEDIUM'`, `'FAST'` or `'INSTANT'` | Will the scrolling syncronization applies to the the body element |
+| `mode`           | `'circle'`    | `'circle'` or `'block'`                                  | This defines precision of the calculated percentage               |
+| `dampenAmount`   | `2.5`         | `number`                                                 | Check your console with this on to get more info on your setup    |
+| `debug`          | `false`       | `boolean`                                                | Check your console with this on to get more info on your setup    |
+| `attractedClass` | `'attracted'` | `string`                                                 | Check your console with this on to get more info on your setup    |
+| `easing`         | `ease-out`    | `string`, use an CSS easing function (bezier supported)  | Check your console with this on to get more info on your setup    |
+| `mouseOnly`      | `true`        | `boolean`                                                | Check your console with this on to get more info on your setup    |
 
-### bindBody
+## Events
 
-As its name suggest, this options allows to sync the body scroll to your desired element.
-You must passed at least one poulie to the coulisse method with this options enabled for it to work.
+Elaimant comes with two events to customize your desired behaviour.
+
+- `on:attracted` triggers once when the mouse enters the attraction zone.
+- `on:released` triggers once when the mouse leaves the attraction zone.
+
+```svelte
+<Elaimant
+	on:attracted={() => {
+		//.. do whatever
+	}}
+	on:released={() => {
+		//.. do whatever
+	}}
+>
+	<!-- ... Your content -->
+</Elaimant>
+```
+
+It also bubbles up the `attracted` boolean for added flexibility inside your content,
+
+```svelte
+<Elaimant let:attracted>
+	<div>
+		isAttracted:{attracted}
+	</div>
+</Elaimant>
+```
+
+## Styling
+
+Elaimant is nearly style-free, and should not interfere with your setup.
+
+However, it adds a class when your component when is attracted, and is up to you to style.
+
+```css
+:global(div.attracted) {
+	outline: 1px solid hsl(var(--primary));
+}
+```
+
+By default, the class is `attracted`, but you can override with `options.attractedClass`.
+
+A very small (277 octet) css file is still included, mostly to style the attractation zone when `options.debug` is activated.
 
 ## Caveats
 
-use of smooth scroll
+I haven't found one yet ! Feel free to open an issue on the Github page.
