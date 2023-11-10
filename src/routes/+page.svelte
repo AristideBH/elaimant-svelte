@@ -25,10 +25,10 @@
 </section>
 
 <section class=" flex flex-col md:flex-row gap-32 gap-y-64 items-center justify-evenly">
-	<Elaimant options={{ triggerDist: 100, mouseOnly: false }}>
+	<Elaimant options={{ triggerDist: 100, mouseOnly: false, debug: true }}>
 		<Button variant="secondary">circleMode</Button>
 	</Elaimant>
-	<Elaimant options={{ mode: 'block', mouseOnly: false }}>
+	<Elaimant options={{ mode: 'block', mouseOnly: false, debug: true }}>
 		<Button variant="secondary">blockMode</Button>
 	</Elaimant>
 </section>
