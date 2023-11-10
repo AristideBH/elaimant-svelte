@@ -1,11 +1,15 @@
 <script lang="ts">
-	import Elaimant, { type ElaimantOptions } from '$lib';
+	import Elaimant from '$lib';
 	import { Button } from '$lib/components/ui/button';
 	import { ArrowDownWideNarrow } from 'lucide-svelte';
 </script>
 
 <svelte:head>
 	<title>Elaimant for Sveltekit</title>
+	<meta
+		name="description"
+		content="Elaimant, pronounced [ɛlɛmɑ̃], is a simple yet fully customizable Sveltekit component to add magnetic attraction to your content when the cursor gets close to it. Style-free and no	dependencies."
+	/>
 </svelte:head>
 
 <section class="flex flex-col items-start gap-4">

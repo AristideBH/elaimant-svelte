@@ -81,7 +81,7 @@ Here are the default options when none are passed to the Elaimant components.
 | `dampenAmount`   | `2.5`         | `number`                                                 | ...               |
 | `debug`          | `false`       | `boolean`                                                | ...               |
 | `attractedClass` | `'attracted'` | `string`                                                 | ...               |
-| `easing`         | `ease-out`    | `string`, use an CSS easing function (bezier supported)  | ...               |
+| `easing`         | `ease-out`    | `string`, CSS easing function (bezier supported)         | ...               |
 | `mouseOnly`      | `true`        | `boolean`                                                | ...               |
 
 ### In depth
@@ -100,7 +100,7 @@ Here are the default options when none are passed to the Elaimant components.
 
 ## Events
 
-Elaimant comes with two events to customize your desired behaviour.
+Elaimant comes with two events to interact with it.
 
 - `on:attracted` triggers once when the mouse enters the attraction zone.
 - `on:released` triggers once when the mouse leaves the attraction zone.
@@ -138,7 +138,7 @@ However, it adds a class when your component when is attracted, and is up to you
 
 ```css
 :global(div.attracted) {
-	outline: 1px solid hsl(var(--primary));
+	outline: 1px solid green;
 }
 ```
 
@@ -146,7 +146,7 @@ However, it adds a class when your component when is attracted, and is up to you
 
 By default, the class is `attracted`, but you can override with `options.attractedClass`.
 
-A very small (277 octet) css file is still included, mostly to style the attractation zone when `options.debug` is activated.
+A very small (277 octets) CSS file is still included, mostly to style the attraction zone when `options.debug` is enabled.
 
 ## Caveats
 

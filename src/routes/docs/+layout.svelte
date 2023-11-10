@@ -39,6 +39,10 @@
 
 <svelte:head>
 	<title>Elaimant - Documentation</title>
+	<meta
+		name="description"
+		content="Elaimant is a Svelte component that makes your content follow the mouse cursor with a smooth animation. Learn how to install, use, and customize Elaimant with this documentation."
+	/>
 </svelte:head>
 
 <slot />
