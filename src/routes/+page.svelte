@@ -10,25 +10,25 @@
 
 <section class="flex flex-col items-start gap-4">
 	<p class="max-w-2xl lead text-balance">
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut consequatur praesentium tenetur
-		asperiores iste necessitatibus alias itaque temporibus similique debitis, inventore velit.
-		Deleniti minima possimus tempore ut doloribus cupiditate vel!
+		Elaimant, pronounced [ɛlɛmɑ̃], is a simple yet fully customizable Sveltekit component to add
+		magnetic attraction to your content when the cursor gets close to it. Style-free and no
+		dependencies.
 	</p>
 
 	<div class="flex flex-col items-start gap-6 gap-y-3">
 		<Button variant="link" class="px-0 text-foreground hover:no-underline">
 			<ArrowDownWideNarrow class="w-4 h-4 mr-2" />
-			Scroll for the basic demos
+			View the basic demos
 		</Button>
 		<Button href="/docs" class="no-underline" variant="outline">Read the documentation</Button>
 	</div>
 </section>
 
 <section class=" flex flex-col md:flex-row gap-32 gap-y-64 items-center justify-evenly">
-	<Elaimant options={{ triggerDist: 100, debug: true }}>
+	<Elaimant options={{ triggerDist: 100, mouseOnly: false }}>
 		<Button variant="secondary">circleMode</Button>
 	</Elaimant>
-	<Elaimant options={{ mode: 'block', debug: true }}>
+	<Elaimant options={{ mode: 'block', mouseOnly: false }}>
 		<Button variant="secondary">blockMode</Button>
 	</Elaimant>
 </section>
