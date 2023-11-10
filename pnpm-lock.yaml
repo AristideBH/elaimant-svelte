@@ -67,6 +67,9 @@ devDependencies:
   prettier-plugin-svelte:
     specifier: ^3.1.0
     version: 3.1.0(prettier@3.0.3)(svelte@4.2.2)
+  prism-themes:
+    specifier: ^1.9.0
+    version: 1.9.0
   publint:
     specifier: ^0.2.5
     version: 0.2.5
@@ -1910,6 +1913,10 @@ packages:
 
   /prism-svelte@0.4.7:
     resolution: {integrity: sha512-yABh19CYbM24V7aS7TuPYRNMqthxwbvx6FF/Rw920YbyBWO3tnyPIqRMgHuSVsLmuHkkBS1Akyof463FVdkeDQ==}
+    dev: true
+
+  /prism-themes@1.9.0:
+    resolution: {integrity: sha512-tX2AYsehKDw1EORwBps+WhBFKc2kxfoFpQAjxBndbZKr4fRmMkv47XN0BghC/K1qwodB1otbe4oF23vUTFDokw==}
     dev: true
 
   /prismjs@1.29.0:
