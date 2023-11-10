@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { defaults, elaimant, type ElaimantOptions } from '$lib';
+	import { defaults, elaimant, type ElaimantOptions } from './elaimant';
 
 	const dispatch = createEventDispatcher();
 	export let options: ElaimantOptions = defaults;

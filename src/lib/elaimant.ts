@@ -1,6 +1,6 @@
-
-import type { ActionReturn } from 'svelte/action';
 import "./elaimant.css"
+import type { ActionReturn } from 'svelte/action';
+import { validateSlot, handleAnimation, calculateDistance, CreateAttractionZone } from "./helpers";
 
 // * TYPES
 export enum Speeds {
@@ -18,6 +18,7 @@ export type Mandatory<T> = {
 export type ElaimantOptions = {
     triggerDist?: number;
     speed?: keyof typeof Speeds;
+    mode?: 'circular' | 'block'
     dampenAmount?: number;
     debug?: boolean,
     attractedClass?: string,
@@ -34,84 +35,11 @@ interface Attributes {
 export const defaults: Mandatory<ElaimantOptions> = {
     triggerDist: 75,
     speed: 'MEDIUM',
+    mode: "circular",
     dampenAmount: 2,
     debug: false,
     attractedClass: "attracted",
-    easing: "ease-out"
-}
-
-// * ////////////////////////////////
-// * HELPERS
-function getSpeedValue(speedKey: keyof typeof Speeds): string {
-    return Speeds[speedKey];
-}
-
-function calculateDistance(event: MouseEvent, node: HTMLElement): { dx: number, dy: number, distance: number } {
-    const rect = node.getBoundingClientRect();
-    const center = {
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2
-    };
-
-    const dx = event.clientX - center.x;
-    const dy = event.clientY - center.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    return { dx, dy, distance };
-}
-
-// * Slotted element validation
-function validateSlot(node: Element, options: ElaimantOptions) {
-    const { debug } = options;
-
-    if (node.childNodes.length === 0) {
-        if (debug) console.warn("🧲 You didn't provide any child element to Elaiment");
-        return false;
-    }
-    if (node.childNodes[0].nodeName === '#text') {
-        if (debug)
-            console.warn(
-                "🧲 You can't use Elaimant with just text. Please wrap your content inside a tag (eg: span, div, h1, etc)."
-            );
-        return false;
-    }
-    if (node.children.length > 1 && !node.children[1].classList.contains("attractionZone")) {
-        if (debug) console.warn("🧲 You can only provide one child element to Elaimant");
-        return false;
-    }
-
-    return true;
-}
-
-// * Animate
-function handleAnimation(event: MouseEvent, node: HTMLElement, slotted: HTMLElement, options: Mandatory<ElaimantOptions>) {
-    const { dx, dy, distance } = calculateDistance(event, node);
-    const { triggerDist, dampenAmount, speed, easing } = options;
-
-    function animate() {
-        slotted.style.transition = 'transform ' + getSpeedValue(speed) + " " + easing;
-
-        if (distance < triggerDist) {
-            const translateX = dx / dampenAmount;
-            const translateY = dy / dampenAmount;
-            slotted.style.transform = `translate(${translateX}px, ${translateY}px)`;
-        } else {
-            slotted.style.transform = `translate(0px, 0px)`;
-        }
-
-        window.requestAnimationFrame(animate);
-    }
-
-    window.requestAnimationFrame(animate);
-}
-
-// * AttractionZone element
-function ShowAttractionZone(options: Mandatory<ElaimantOptions>, slottedSize: { width: number; height: number; }, node: HTMLElement) {
-    const triggerDistView = document.createElement("div");
-    triggerDistView.classList.add("attractionZone");
-    triggerDistView.style.padding = options.triggerDist + "px";
-    triggerDistView.style.translate = `calc(-50% + ${slottedSize.width}px) calc(-50% + ${slottedSize.height}px)`;
-    node.appendChild(triggerDistView);
+    easing: "cubic-bezier(0.2, 0.5, 0.5, 1)"
 }
 
 
@@ -122,26 +50,28 @@ export function elaimant(
     node: HTMLElement,
     elaimantOptions: ElaimantOptions = defaults
 ): ActionReturn<ElaimantOptions, Attributes> {
+
     const options: Mandatory<ElaimantOptions> = { ...defaults, ...elaimantOptions };
     const slotted = node.children[0] as HTMLElement;
     const slottedSize = {
-        width: slotted.getBoundingClientRect().width / 2,
-        height: slotted.getBoundingClientRect().height / 2
+        width: slotted.getBoundingClientRect().width,
+        height: slotted.getBoundingClientRect().height
     }
 
     let isAttracted = false;
     let isReleased = true;
 
-    if (options.debug) ShowAttractionZone(options, slottedSize, node)
-
-    // VALIDATIONS
     if (!validateSlot(node, options)) return {};
+
+    if (options.debug) {
+        CreateAttractionZone(options, slottedSize, node)
+    }
 
     function handleMouse(event: MouseEvent) {
         handleAnimation(event, node, slotted, options);
 
         const { triggerDist, attractedClass } = options;
-        const { distance } = calculateDistance(event, node);
+        const { distance } = calculateDistance(event, node, options);
 
         if (distance < triggerDist && isReleased) {
             slotted.classList.add(attractedClass);
@@ -156,12 +86,17 @@ export function elaimant(
         }
     }
 
-    window.addEventListener("mousemove", handleMouse);
+    if (window.matchMedia('(hover: hover)').matches) {
+        // The device has a mouse input, so add the mousemove event listener
+        window.addEventListener("mousemove", handleMouse);
+    }
 
     return {
         update() { },
         destroy() {
-            window.removeEventListener('mousemove', handleMouse);
+            if (window.matchMedia('(hover: hover)').matches) {
+                window.removeEventListener('mousemove', handleMouse);
+            }
         },
     };
 }
