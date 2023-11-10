@@ -52,6 +52,7 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
+		"bits-ui": "^0.9.3",
 		"clsx": "^2.0.0",
 		"lucide-svelte": "^0.292.0",
 		"mode-watcher": "^0.0.7",

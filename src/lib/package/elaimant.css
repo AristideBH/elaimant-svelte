@@ -5,8 +5,10 @@
 }
 
 .elaimant > .attractionZone {
+	box-sizing: content-box;
 	border-radius: 50vh;
-	border: 1px dashed grey;
+	border: 1px dashed var(--color, grey);
+	--color: hsl(var(--primary));
 	z-index: -1;
 	position: absolute;
 	top: 0;

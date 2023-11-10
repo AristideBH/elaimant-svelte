@@ -1,49 +1,44 @@
 <script lang="ts">
 	import Elaimant, { type ElaimantOptions } from '$lib';
+	import { Button } from '$lib/components/ui/button';
+	import { ArrowDownWideNarrow } from 'lucide-svelte';
 </script>
 
-<main>
-	<Elaimant
-		let:attracted
-		on:attracted={() => {}}
-		on:released={() => {}}
-		options={{ triggerDist: 100, debug: true }}
-	>
-		<button>
-			circleMode, <br />isAttracted: <br />{attracted}
-		</button>
+<section class="flex flex-col items-start gap-4">
+	<p class="max-w-2xl lead text-balance">
+		Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut consequatur praesentium tenetur
+		asperiores iste necessitatibus alias itaque temporibus similique debitis, inventore velit.
+		Deleniti minima possimus tempore ut doloribus cupiditate vel!
+	</p>
+
+	<div class="flex flex-col items-start gap-6 gap-y-3">
+		<Button variant="link" class="px-0 text-foreground hover:no-underline">
+			<ArrowDownWideNarrow class="w-4 h-4 mr-2" />
+			Scroll for the basic demos
+		</Button>
+		<Button href="/docs" class="no-underline" variant="outline">Read the documentation</Button>
+	</div>
+</section>
+
+<section class=" flex flex-col md:flex-row gap-32 gap-y-64 items-center justify-evenly">
+	<Elaimant options={{ triggerDist: 100, debug: true }}>
+		<Button variant="secondary">circleMode</Button>
 	</Elaimant>
-	<Elaimant
-		let:attracted
-		on:attracted={() => {}}
-		on:released={() => {}}
-		options={{ mode: 'block', debug: true }}
-	>
-		<button>
-			blockMode, isAttracted: <br />{attracted}
-		</button>
+	<Elaimant options={{ mode: 'block', debug: true }}>
+		<Button variant="secondary">blockMode</Button>
 	</Elaimant>
-</main>
+</section>
 
-<style>
-	:global(body) {
-		padding: 0;
-		margin: 0;
+<section class="flex flex-col items-start gap-2 isolate">
+	<p class="lead text-balance">Consult the documentation to install and options</p>
+	<Button href="/docs" class="no-underline" variant="outline">Read the documentation</Button>
+</section>
+
+<style lang="postcss">
+	section + section {
+		@apply mt-52;
 	}
-
-	main {
-		padding-block: 13vh;
-		min-height: 100dvh;
-
-		display: grid;
-		place-items: center;
-	}
-
-	button {
-		color: black;
-	}
-
 	:global(button.attracted) {
-		outline: 1px solid green;
+		outline: 1px solid hsl(var(--primary));
 	}
 </style>
