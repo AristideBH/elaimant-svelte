@@ -1,3 +1,5 @@
+> The docs are not complete yet, come back in a bit for more informations
+
 ## Installation
 
 Use your preferred node package manager.
@@ -24,7 +26,7 @@ Import the `Elaimant` component, and wrap your content with it.
 
 The component is designed to only receive **one** child element, and doesn't accept just text node. Some checks are in place, and Elaimant will not start otherwise.
 
-Make sure your content is inside any tag !
+> Make sure your content is inside an HTML tag (div, span, button, etc) !
 
 ## Options
 
@@ -46,6 +48,8 @@ Directly inside the `Elaimant` component, with the options prop (Typescript auto
 </Elaimant>
 ```
 
+---
+
 Or construct an object with the type `ElaimantOptions`, and use it inside the component :
 
 ```ts
@@ -65,18 +69,34 @@ Or construct an object with the type `ElaimantOptions`, and use it inside the co
 </Elaimant>
 ```
 
-Here are the default options when none are passed to the coulisse initialization.
+---
 
-| Props            | Default       | Type                                                     | Description                                                       |
-| ---------------- | ------------- | -------------------------------------------------------- | ----------------------------------------------------------------- |
-| `triggerDist`    | `75 `         | `number`                                                 | This defines the allowed axis for the syncronization              |
-| `speed`          | `'MEDIUM'`    | `'SNAIL'`, `'SLOW'`, `'MEDIUM'`, `'FAST'` or `'INSTANT'` | Will the scrolling syncronization applies to the the body element |
-| `mode`           | `'circle'`    | `'circle'` or `'block'`                                  | This defines precision of the calculated percentage               |
-| `dampenAmount`   | `2.5`         | `number`                                                 | Check your console with this on to get more info on your setup    |
-| `debug`          | `false`       | `boolean`                                                | Check your console with this on to get more info on your setup    |
-| `attractedClass` | `'attracted'` | `string`                                                 | Check your console with this on to get more info on your setup    |
-| `easing`         | `ease-out`    | `string`, use an CSS easing function (bezier supported)  | Check your console with this on to get more info on your setup    |
-| `mouseOnly`      | `true`        | `boolean`                                                | Check your console with this on to get more info on your setup    |
+Here are the default options when none are passed to the Elaimant components.
+
+| Props            | Default       | Type                                                     | Description (WIP) |
+| ---------------- | ------------- | -------------------------------------------------------- | ----------------- |
+| `triggerDist`    | `75 `         | `number`                                                 | ...               |
+| `speed`          | `'MEDIUM'`    | `'SNAIL'`, `'SLOW'`, `'MEDIUM'`, `'FAST'` or `'INSTANT'` | ...               |
+| `mode`           | `'circle'`    | `'circle'` or `'block'`                                  | ...               |
+| `dampenAmount`   | `2.5`         | `number`                                                 | ...               |
+| `debug`          | `false`       | `boolean`                                                | ...               |
+| `attractedClass` | `'attracted'` | `string`                                                 | ...               |
+| `easing`         | `ease-out`    | `string`, use an CSS easing function (bezier supported)  | ...               |
+| `mouseOnly`      | `true`        | `boolean`                                                | ...               |
+
+### In depth
+
+---
+
+#### mode
+
+> writing documentation
+
+---
+
+#### mouseOnly
+
+> writing documentation
 
 ## Events
 
@@ -97,6 +117,8 @@ Elaimant comes with two events to customize your desired behaviour.
 	<!-- ... Your content -->
 </Elaimant>
 ```
+
+---
 
 It also bubbles up the `attracted` boolean for added flexibility inside your content,
 
@@ -119,6 +141,8 @@ However, it adds a class when your component when is attracted, and is up to you
 	outline: 1px solid hsl(var(--primary));
 }
 ```
+
+---
 
 By default, the class is `attracted`, but you can override with `options.attractedClass`.
 

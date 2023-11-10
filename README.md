@@ -1,58 +1,153 @@
-# create-svelte
+> The docs are not complete yet, come back in a bit for more informations
 
-Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+## Installation
 
-Read more about creating a library [in the docs](https://kit.svelte.dev/docs/packaging).
+Use your preferred node package manager.
 
-## Creating a project
+`npm i @arisbh/elaimant`
 
-If you're seeing this, you've probably already done this step. Congrats!
+`pnpm add @arisbh/elaimant`
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+`yarn add @arisbh/elaimant`
 
-# create a new project in my-app
-npm create svelte@latest my-app
+## Usage
+
+Import the `Elaimant` component, and wrap your content with it.
+
+```svelte
+<script lang="ts">
+	import Elaimant from '@arisbh/elaimant';
+</script>
+
+<Elaimant>
+	<!-- ... Your content -->
+</Elaimant>
 ```
 
-## Developing
+The component is designed to only receive **one** child element, and doesn't accept just text node. Some checks are in place, and Elaimant will not start otherwise.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+> Make sure your content is inside an HTML tag (div, span, button, etc) !
 
-```bash
-npm run dev
+## Options
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+To pass options, you have two solutions.
+
+Directly inside the `Elaimant` component, with the options prop (Typescript autosuggestion enabled) :
+
+```svelte
+<Elaimant
+	options={{
+		triggerDist: 75,
+		speed: 'MEDIUM',
+		mode: 'circle',
+		dampenAmount: 2.5
+		//...
+	}}
+>
+	<!-- ... Your content -->
+</Elaimant>
 ```
 
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
+---
 
-## Building
+Or construct an object with the type `ElaimantOptions`, and use it inside the component :
 
-To build your library:
-
-```bash
-npm run package
+```ts
+	import Elaimant, type { ElaimantOptions } from '@arisbh/elaimant';
+	const Options: ElaimantOptions = {
+		triggerDist: 75,
+		speed: 'MEDIUM',
+		mode: 'circle',
+		dampenAmount: 2.5;
+		//...
+	}
 ```
 
-To create a production version of your showcase app:
-
-```bash
-npm run build
+```svelte
+<Elaimant {options}>
+	<!-- ... Your content -->
+</Elaimant>
 ```
 
-You can preview the production build with `npm run preview`.
+---
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Here are the default options when none are passed to the Elaimant components.
 
-## Publishing
+| Props            | Default       | Type                                                     | Description (WIP) |
+| ---------------- | ------------- | -------------------------------------------------------- | ----------------- |
+| `triggerDist`    | `75 `         | `number`                                                 | ...               |
+| `speed`          | `'MEDIUM'`    | `'SNAIL'`, `'SLOW'`, `'MEDIUM'`, `'FAST'` or `'INSTANT'` | ...               |
+| `mode`           | `'circle'`    | `'circle'` or `'block'`                                  | ...               |
+| `dampenAmount`   | `2.5`         | `number`                                                 | ...               |
+| `debug`          | `false`       | `boolean`                                                | ...               |
+| `attractedClass` | `'attracted'` | `string`                                                 | ...               |
+| `easing`         | `ease-out`    | `string`, use an CSS easing function (bezier supported)  | ...               |
+| `mouseOnly`      | `true`        | `boolean`                                                | ...               |
 
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
+### In depth
 
-To publish your library to [npm](https://www.npmjs.com):
+---
 
-```bash
-npm publish
+#### mode
+
+> writing documentation
+
+---
+
+#### mouseOnly
+
+> writing documentation
+
+## Events
+
+Elaimant comes with two events to customize your desired behaviour.
+
+- `on:attracted` triggers once when the mouse enters the attraction zone.
+- `on:released` triggers once when the mouse leaves the attraction zone.
+
+```svelte
+<Elaimant
+	on:attracted={() => {
+		//.. do whatever
+	}}
+	on:released={() => {
+		//.. do whatever
+	}}
+>
+	<!-- ... Your content -->
+</Elaimant>
 ```
+
+---
+
+It also bubbles up the `attracted` boolean for added flexibility inside your content,
+
+```svelte
+<Elaimant let:attracted>
+	<div>
+		isAttracted:{attracted}
+	</div>
+</Elaimant>
+```
+
+## Styling
+
+Elaimant is nearly style-free, and should not interfere with your setup.
+
+However, it adds a class when your component when is attracted, and is up to you to style.
+
+```css
+:global(div.attracted) {
+	outline: 1px solid hsl(var(--primary));
+}
+```
+
+---
+
+By default, the class is `attracted`, but you can override with `options.attractedClass`.
+
+A very small (277 octet) css file is still included, mostly to style the attractation zone when `options.debug` is activated.
+
+## Caveats
+
+I haven't found one yet ! Feel free to open an issue on the Github page.
