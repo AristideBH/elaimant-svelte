@@ -41,7 +41,7 @@ export const defaults: Mandatory<ElaimantOptions> = {
     debug: false,
     attractedClass: "attracted",
     easing: "cubic-bezier(0.2, 0.5, 0.5, 1)",
-    mouseOnly: true
+    mouseOnly: false
 }
 
 
