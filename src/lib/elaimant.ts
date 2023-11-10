@@ -23,12 +23,12 @@ interface Attributes {
 export type ElaimantOptions = {
     triggerDist?: number;
     speed?: keyof typeof Speeds;
-    mode?: 'circular' | 'block'
+    mode?: 'circle' | 'block'
     dampenAmount?: number;
     debug?: boolean,
     attractedClass?: string,
     easing?: string,
-    mouseOnly: boolean
+    mouseOnly?: boolean
 }
 
 
@@ -36,8 +36,8 @@ export type ElaimantOptions = {
 export const defaults: Mandatory<ElaimantOptions> = {
     triggerDist: 75,
     speed: 'MEDIUM',
-    mode: "circular",
-    dampenAmount: 2,
+    mode: "circle",
+    dampenAmount: 2.5,
     debug: false,
     attractedClass: "attracted",
     easing: "cubic-bezier(0.2, 0.5, 0.5, 1)",
@@ -49,14 +49,14 @@ export const defaults: Mandatory<ElaimantOptions> = {
 // * ////////////////////////////////
 // * ACTION
 export function elaimant(
-    node: HTMLElement,
+    target: HTMLElement,
     elaimantOptions: ElaimantOptions = defaults
 ): ActionReturn<ElaimantOptions, Attributes> {
 
     const options: Mandatory<ElaimantOptions> = { ...defaults, ...elaimantOptions };
-    if (!validateSlot(node, options)) return {};
+    if (!validateSlot(target, options)) return {};
 
-    const slotted = node.children[0] as HTMLElement;
+    const slotted = target.children[0] as HTMLElement;
     const slottedSize = {
         width: slotted.getBoundingClientRect().width,
         height: slotted.getBoundingClientRect().height
@@ -66,23 +66,23 @@ export function elaimant(
     let isReleased = true;
 
     if (options.debug) {
-        CreateAttractionZone(options, slottedSize, node)
+        CreateAttractionZone(options, slottedSize, target)
     }
 
     function handleMouse(event: MouseEvent) {
-        handleAnimation(event, node, slotted, options);
+        handleAnimation(event, target, slotted, options);
 
         const { triggerDist, attractedClass } = options;
-        const { distance } = calculateDistance(event, node, options);
+        const { distance } = calculateDistance(event, target, options);
 
         if (distance < triggerDist && isReleased) {
             slotted.classList.add(attractedClass);
-            node.dispatchEvent(new CustomEvent('attracted'));
+            target.dispatchEvent(new CustomEvent('attracted'));
             isAttracted = true;
             isReleased = false;
         } else if (distance >= triggerDist && isAttracted) {
             slotted.classList.remove(attractedClass);
-            node.dispatchEvent(new CustomEvent('released'));
+            target.dispatchEvent(new CustomEvent('released'));
             isAttracted = false;
             isReleased = true;
         }
@@ -90,7 +90,6 @@ export function elaimant(
 
     if (options.mouseOnly) {
         if (window.matchMedia('(hover: hover)').matches) {
-            // The device has a mouse input, so add the mousemove event listener
             window.addEventListener("mousemove", handleMouse);
         }
     } else {

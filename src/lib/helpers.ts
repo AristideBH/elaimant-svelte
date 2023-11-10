@@ -7,21 +7,21 @@ function getSpeedValue(speedKey: keyof typeof Speeds): string {
 
 
 // * Slotted element validation
-export function validateSlot(node: Element, options: ElaimantOptions) {
+export function validateSlot(target: Element, options: ElaimantOptions) {
     const { debug } = options;
 
-    if (node.childNodes.length === 0) {
+    if (target.childNodes.length === 0) {
         if (debug) console.warn("🧲 You didn't provide any child element to Elaiment");
         return false;
     }
-    if (node.childNodes[0].nodeName === '#text') {
+    if (target.childNodes[0].nodeName === '#text') {
         if (debug)
             console.warn(
                 "🧲 You can't use Elaimant with just text. Please wrap your content in a tag (eg: span, div, h1, etc)."
             );
         return false;
     }
-    if (node.children.length > 1 && !node.children[1].classList.contains("attractionZone")) {
+    if (target.children.length > 1 && !target.children[1].classList.contains("attractionZone")) {
         if (debug) console.warn("🧲 You can only provide one child element to Elaimant");
         return false;
     }
@@ -33,7 +33,7 @@ export function validateSlot(node: Element, options: ElaimantOptions) {
 // * Calculate distance from element based on the mode
 export function calculateDistance(
     event: MouseEvent,
-    node: HTMLElement,
+    target: HTMLElement,
     options: Mandatory<ElaimantOptions>
 ): { dx: number, dy: number, distance: number } {
 
@@ -41,7 +41,7 @@ export function calculateDistance(
     let distance: number,
         dx: number,
         dy: number
-    const rect = node.getBoundingClientRect();
+    const rect = target.getBoundingClientRect();
 
     if (mode == "block") {
         const x = Math.max(rect.left, Math.min(event.clientX, rect.right));
@@ -68,7 +68,11 @@ export function calculateDistance(
 
 
 // * AttractionZone element
-export function CreateAttractionZone(options: Mandatory<ElaimantOptions>, slottedSize: { width: number; height: number; }, node: HTMLElement) {
+export function CreateAttractionZone(
+    options: Mandatory<ElaimantOptions>,
+    slottedSize: { width: number; height: number; },
+    target: HTMLElement) {
+
     const attractionZone = document.createElement("div");
     attractionZone.classList.add("attractionZone");
     attractionZone.style.padding = options.triggerDist + "px";
@@ -80,14 +84,14 @@ export function CreateAttractionZone(options: Mandatory<ElaimantOptions>, slotte
         attractionZone.style.borderRadius = options.triggerDist + 'px'
     }
 
-    node.appendChild(attractionZone);
+    target.appendChild(attractionZone);
     return attractionZone
 }
 
 
 // * Animate
-export function handleAnimation(event: MouseEvent, node: HTMLElement, slotted: HTMLElement, options: Mandatory<ElaimantOptions>) {
-    const { dx, dy, distance } = calculateDistance(event, node, options);
+export function handleAnimation(event: MouseEvent, target: HTMLElement, slotted: HTMLElement, options: Mandatory<ElaimantOptions>) {
+    const { dx, dy, distance } = calculateDistance(event, target, options);
     const { triggerDist, dampenAmount, speed, easing } = options;
 
     function animate() {

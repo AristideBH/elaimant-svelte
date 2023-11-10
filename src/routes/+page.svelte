@@ -3,7 +3,12 @@
 </script>
 
 <main>
-	<Elaimant let:attracted on:attracted={() => {}} on:released={() => {}}>
+	<Elaimant
+		let:attracted
+		on:attracted={() => {}}
+		on:released={() => {}}
+		options={{ speed: 'FAST', triggerDist: 100, debug: true }}
+	>
 		<button>
 			isAttracted: <br />{attracted}
 		</button>
