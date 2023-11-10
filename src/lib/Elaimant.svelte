@@ -6,20 +6,12 @@
 	export let options: ElaimantOptions = defaults;
 	export let attracted: boolean | string = false;
 
-	const handleMouseOnly = (options: ElaimantOptions) => {
-		if (options.mouseOnly) {
-			attracted = 'Disabled on touchscreen';
-		}
-	};
-
 	const handleAttracted = () => {
 		attracted = true;
-		handleMouseOnly(options);
 		dispatch('attracted');
 	};
 	const handleRelease = () => {
 		attracted = false;
-		handleMouseOnly(options);
 		dispatch('released');
 	};
 </script>
