@@ -62,12 +62,10 @@ export function elaimant(
         height: slotted.getBoundingClientRect().height
     }
 
-    let isAttracted = false;
-    let isReleased = true;
+    let isAttracted = false,
+        isReleased = true;
 
-    if (options.debug) {
-        CreateAttractionZone(options, slottedSize, target)
-    }
+    if (options.debug) CreateAttractionZone(options, slottedSize, target)
 
     function handleMouse(event: MouseEvent) {
         handleAnimation(event, target, slotted, options);

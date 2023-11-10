@@ -7,10 +7,20 @@
 		let:attracted
 		on:attracted={() => {}}
 		on:released={() => {}}
-		options={{ speed: 'FAST', triggerDist: 100, debug: true }}
+		options={{ triggerDist: 100, debug: true }}
 	>
 		<button>
-			isAttracted: <br />{attracted}
+			circleMode, <br />isAttracted: <br />{attracted}
+		</button>
+	</Elaimant>
+	<Elaimant
+		let:attracted
+		on:attracted={() => {}}
+		on:released={() => {}}
+		options={{ mode: 'block', debug: true }}
+	>
+		<button>
+			blockMode, isAttracted: <br />{attracted}
 		</button>
 	</Elaimant>
 </main>
@@ -22,7 +32,9 @@
 	}
 
 	main {
-		height: 100dvh;
+		padding-block: 13vh;
+		min-height: 100dvh;
+
 		display: grid;
 		place-items: center;
 	}
