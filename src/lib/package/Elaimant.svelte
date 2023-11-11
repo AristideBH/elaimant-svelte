@@ -35,10 +35,10 @@
 </script>
 
 <div
-	on:released={handleRelease}
-	on:attracted={handleAttracted}
 	bind:offsetHeight={slottedHeight}
 	bind:offsetWidth={slottedWidth}
+	on:released={handleRelease}
+	on:attracted={handleAttracted}
 	use:elaimant={mergedOptions}
 >
 	<slot {attracted} />
@@ -54,14 +54,12 @@
 		height: auto;
 		/* these two first lines are important to get your slotted element's width and height */
 		position: relative;
-		--attraction-zone-border: 1px dashed hsl(var(--primary));
-		--attraction-zone-bg: none;
 	}
 
 	div > div {
 		box-sizing: content-box;
-		border: var(--attraction-zone-border);
-		background-color: var(--attraction-zone-bg);
+		border: var(--attraction-zone-border, 1px dashed lightgrey);
+		background-color: var(--attraction-zone-bg, none);
 		z-index: -1;
 		position: absolute;
 		top: 50%;

@@ -8,7 +8,7 @@ export enum Speeds {
     SLOW = "600ms",
     MEDIUM = "300ms",
     FAST = "150ms",
-    INSTANT = "7ms"
+    INSTANT = "8ms"
 }
 
 export type Mandatory<T> = {
@@ -29,7 +29,6 @@ export type ElaimantOptions = {
     attractedClass?: string,
     easing?: string,
     mouseOnly?: boolean,
-
 }
 
 
@@ -50,17 +49,17 @@ export const defaults: Mandatory<ElaimantOptions> = {
 // * ACTION
 export function elaimant(
     target: HTMLElement,
-    elaimantOptions: Mandatory<ElaimantOptions> = defaults
-): ActionReturn<ElaimantOptions, Attributes> {
+    elaimantOptions: Mandatory<ElaimantOptions>
+): ActionReturn<Mandatory<ElaimantOptions>, Attributes> {
+    const options = elaimantOptions;
 
-    const options: Mandatory<ElaimantOptions> = { ...defaults, ...elaimantOptions };
     if (!isSlotValid(target, options)) return {};
 
     const slotted = target.children[0] as HTMLElement;
     let isAttracted = false,
         isReleased = true;
 
-    function handleMouse(event: MouseEvent) {
+    function initElaimant(event: MouseEvent) {
         handleAnimation(event, target, slotted, options);
 
         const { triggerDist, attractedClass } = options;
@@ -81,10 +80,10 @@ export function elaimant(
 
     if (options.mouseOnly) {
         if (window.matchMedia('(hover: hover)').matches) {
-            window.addEventListener("mousemove", handleMouse);
+            window.addEventListener("mousemove", initElaimant);
         }
     } else {
-        window.addEventListener("mousemove", handleMouse);
+        window.addEventListener("mousemove", initElaimant);
 
     }
 
@@ -92,7 +91,7 @@ export function elaimant(
         update() { },
         destroy() {
             if (window.matchMedia('(hover: hover)').matches) {
-                window.removeEventListener('mousemove', handleMouse);
+                window.removeEventListener('mousemove', initElaimant);
             }
         },
     };

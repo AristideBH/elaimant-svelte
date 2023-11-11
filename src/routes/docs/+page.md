@@ -33,9 +33,21 @@ The component is designed to only receive **one** child element, and doesn't acc
 
 > Make sure your content is inside an HTML tag (div, span, button, etc) !
 
-## Options
+## Props
 
-To pass options, you have two solutions.
+### Attraction zone
+
+To show the zone where your cursor will start magnetising your element, simple use the `attractionZone` prop !
+
+```svelte
+<Elaimant attractionZone>
+	<!-- ... Your content -->
+</Elaimant>
+```
+
+### Options
+
+To customize Elaimant behaviour, you have two solutions to pass an `options` object.
 
 Directly inside the `Elaimant` component, with the options prop (Typescript autosuggestion enabled) :
 
@@ -83,7 +95,7 @@ Here are the default options when none are passed to the Elaimant components.
 | `triggerDist`    | `75 `         | `number`                                                 | ...               |
 | `speed`          | `'MEDIUM'`    | `'SNAIL'`, `'SLOW'`, `'MEDIUM'`, `'FAST'` or `'INSTANT'` | ...               |
 | `mode`           | `'circle'`    | `'circle'` or `'block'`                                  | ...               |
-| `dampenAmount`   | `2.5`         | `number`                                                 | ...               |
+| `dampenAmount`   | `2`           | `number`                                                 | ...               |
 | `debug`          | `false`       | `boolean`                                                | ...               |
 | `attractedClass` | `'attracted'` | `string`                                                 | ...               |
 | `easing`         | `ease-out`    | `string`, CSS easing function (bezier supported)         | ...               |
@@ -151,7 +163,20 @@ However, it adds a class when your component when is attracted, and is up to you
 
 By default, the class is `attracted`, but you can override with `options.attractedClass`.
 
-A very small (277 octets) CSS file is still included, mostly to style the attraction zone when `options.debug` is enabled.
+---
+
+To style the attraction zone, you can use the class directive on Elaimant to specify dedicated CSS variables.
+Make sure to pas correct CSS rules.
+
+```svelte
+<Elaimant
+	attractionZone
+	--attraction-zone-border={'2px solid hsl(var(--primary))'}
+	--attraction-zone-bg={'red'}
+>
+	<!-- ... Your content -->
+</Elaimant>
+```
 
 ## Caveats
 

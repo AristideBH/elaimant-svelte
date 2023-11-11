@@ -4,27 +4,21 @@
 	import { ArrowDownWideNarrow } from 'lucide-svelte';
 
 	let attractedEl: null | EventTarget;
-	const handleAttracted = (e: CustomEvent) => {
-		attractedEl = e.detail.slottedNode.textContent;
-	};
-	const handleReleased = (e: CustomEvent) => {
-		attractedEl = null;
-	};
+	const handleAttracted = (e: CustomEvent) => (attractedEl = e.detail.slottedNode.textContent);
+	const handleReleased = (e: CustomEvent) => (attractedEl = null);
+
+	const description =
+		'Elaimant, pronounced [ɛlɛmɑ̃], is a simple yet fully customizable Sveltekit component to add magnetic attraction to your content when the cursor gets close to it. Style-free and no dependencies.';
 </script>
 
 <svelte:head>
 	<title>Elaimant for Sveltekit</title>
-	<meta
-		name="description"
-		content="Elaimant, pronounced [ɛlɛmɑ̃], is a simple yet fully customizable Sveltekit component to add magnetic attraction to your content when the cursor gets close to it. Style-free and no	dependencies."
-	/>
+	<meta name="description" content={description} />
 </svelte:head>
 
 <section class="flex flex-col items-start gap-4">
 	<p class="max-w-2xl lead text-balance">
-		Elaimant, pronounced [ɛlɛmɑ̃], is a simple yet fully customizable Sveltekit component to add
-		magnetic attraction to your content when the cursor gets close to it. Style-free and no
-		dependencies.
+		{description}
 	</p>
 
 	<div class="flex flex-col items-start gap-6 gap-y-3">
@@ -36,10 +30,11 @@
 	</div>
 </section>
 
-<section class=" flex flex-col gap-y-32">
-	<div class="flex flex-col md:flex-row gap-32 gap-y-60 items-center justify-evenly">
+<section class="flex flex-col gap-y-32">
+	<div class="flex flex-col items-center gap-32 md:flex-row gap-y-60 justify-evenly">
 		<Elaimant
 			attractionZone
+			--attraction-zone-border={'1px dashed hsl(var(--primary))'}
 			options={{ triggerDist: 100, mouseOnly: false }}
 			on:attracted={handleAttracted}
 			on:released={handleReleased}
@@ -48,6 +43,7 @@
 		</Elaimant>
 		<Elaimant
 			attractionZone
+			--attraction-zone-border={'1px dashed hsl(var(--primary))'}
 			options={{ mode: 'block', mouseOnly: false }}
 			on:attracted={handleAttracted}
 			on:released={handleReleased}
@@ -56,10 +52,9 @@
 		</Elaimant>
 	</div>
 
-	<div class="text-center">
-		Attracted item :
-		{attractedEl ? attractedEl : 'none'}
-	</div>
+	<p class="text-center">
+		{attractedEl ? 'Attracted item : ' + attractedEl : 'Nothing is attracted '}
+	</p>
 </section>
 
 <section class="flex flex-col items-start gap-2 isolate">
@@ -68,10 +63,6 @@
 </section>
 
 <style lang="postcss">
-	section + section {
-		@apply mt-52;
-	}
-
 	:global(button.attracted) {
 		outline: 1px solid hsl(var(--primary));
 	}
