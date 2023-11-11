@@ -6,7 +6,7 @@
 	let attractedEl: null | EventTarget;
 	const handleAttracted = (e: CustomEvent) => (attractedEl = e.detail.node.textContent);
 	const handleReleased = (e: CustomEvent) => (attractedEl = null);
-	let ZoneBorder = '1px dashed hsl(var(--primary))';
+	let ZoneBorder = '2px dashed hsl(var(--muted))';
 
 	const description =
 		'Elaimant, pronounced [ɛlɛmɑ̃], is a simple yet fully customizable Sveltekit component to add magnetic attraction to your content when the cursor gets close to it. Style-free and no dependencies.';
