@@ -1,10 +1,4 @@
-import { type ElaimantOptions, Speeds } from "./elaimant";
-
-// * Get the speed value
-function getSpeedValue(speedKey: keyof typeof Speeds): string {
-    return Speeds[speedKey];
-}
-
+import { type ElaimantOptions } from "./elaimant";
 
 // * Slotted element validation
 export function isSlotValid(target: Element, options: Partial<ElaimantOptions>) {
@@ -73,7 +67,7 @@ export function handleAnimation(event: MouseEvent, target: HTMLElement, slotted:
     const { triggerDist, dampenAmount, speed, easing } = options;
 
     function animate() {
-        slotted.style.transition = 'transform' + ' ' + getSpeedValue(speed) + ' ' + easing;
+        slotted.style.transition = 'transform' + ' ' + speed + 'ms ' + easing;
 
         if (distance < triggerDist) {
             const translateX = dx / dampenAmount;

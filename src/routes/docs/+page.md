@@ -1,7 +1,6 @@
 # What does Elaimant do ?
 
-Elaimant is a simple Sveltekit compoment that applies a magnetic attraction effect to the mouse, to the provided element it wraps.
-It wrap your given element inside a container for translation purpose, but is auto-sized and should not break your design.
+Elaimant is a simple Sveltekit compoment that applies a magnetic attraction effect to the provided element it wraps, based on the mouse position.
 
 > The docs are not complete yet, come back in a bit for more informations
 
@@ -70,14 +69,14 @@ Directly inside the `Elaimant` component, with the options prop (Typescript auto
 Or construct an object with the type `ElaimantOptions`, and use it inside the component :
 
 ```ts
-	import Elaimant, type { ElaimantOptions } from '@arisbh/elaimant';
-	const Options: ElaimantOptions = {
-		triggerDist: 75,
-		speed: 'MEDIUM',
-		mode: 'circle',
-		dampenAmount: 2.5;
-		//...
-	}
+import Elaimant, type { ElaimantOptions } from '@arisbh/elaimant';
+const Options: ElaimantOptions = {
+	triggerDist: 75,
+	speed: 'MEDIUM',
+	mode: 'circle',
+	dampenAmount: 2.5;
+	//...
+}
 ```
 
 ```svelte
@@ -90,16 +89,16 @@ Or construct an object with the type `ElaimantOptions`, and use it inside the co
 
 Here are the default options when none are passed to the Elaimant components.
 
-| Props            | Default       | Type                                                     | Description (WIP) |
-| ---------------- | ------------- | -------------------------------------------------------- | ----------------- |
-| `triggerDist`    | `75 `         | `number`                                                 | ...               |
-| `speed`          | `'MEDIUM'`    | `'SNAIL'`, `'SLOW'`, `'MEDIUM'`, `'FAST'` or `'INSTANT'` | ...               |
-| `mode`           | `'circle'`    | `'circle'` or `'block'`                                  | ...               |
-| `dampenAmount`   | `2`           | `number`                                                 | ...               |
-| `debug`          | `false`       | `boolean`                                                | ...               |
-| `attractedClass` | `'attracted'` | `string`                                                 | ...               |
-| `easing`         | `ease-out`    | `string`, CSS easing function (bezier supported)         | ...               |
-| `mouseOnly`      | `true`        | `boolean`                                                | ...               |
+| Props            | Default       | Type                              | Description (WIP) |
+| ---------------- | ------------- | --------------------------------- | ----------------- |
+| `triggerDist`    | `75 `         | `number`                          | ...               |
+| `speed`          | `'MEDIUM'`    | `number` in millisecond           | ...               |
+| `mode`           | `'circle'`    | `'circle'` or `'block'`           | ...               |
+| `dampenAmount`   | `2`           | `number`                          | ...               |
+| `debug`          | `false`       | `boolean`                         | ...               |
+| `attractedClass` | `'attracted'` | `string`                          | ...               |
+| `easing`         | `ease-out`    | `string`, any CSS easing function | ...               |
+| `mouseOnly`      | `true`        | `boolean`                         | ...               |
 
 ### In depth
 
@@ -117,25 +116,34 @@ Here are the default options when none are passed to the Elaimant components.
 
 ## Events
 
+### on: directives
+
 Elaimant comes with two events to interact with it.
 
 - `on:attracted` triggers once when the mouse enters the attraction zone.
 - `on:released` triggers once when the mouse leaves the attraction zone.
 
 ```svelte
-<Elaimant
-	on:attracted={() => {
-		//.. do whatever
-	}}
-	on:released={() => {
-		//.. do whatever
-	}}
->
+<Elaimant on:attracted={ ... } on:released={ ... }>
 	<!-- ... Your content -->
 </Elaimant>
 ```
 
----
+Both of these will return an event, typed as `CustomEvent`, with the detail proprety containing a reference to your slotted Element, and the passed options.
+
+```ts
+const handleAttracted = (e: CustomEvent) => {
+	const { node, options } = e.detail;
+};
+```
+
+```svelte
+<Elaimant on:attracted={handleAttracted}>
+	<!-- ... Your content -->
+</Elaimant>
+```
+
+### Variable
 
 It also bubbles up the `attracted` boolean for added flexibility inside your content,
 
@@ -166,21 +174,23 @@ By default, the class is `attracted`, but you can override with `options.attract
 ---
 
 To style the attraction zone, you can use the class directive on Elaimant to specify dedicated CSS variables.
-Make sure to pas correct CSS rules.
+Make sure to pass correct CSS rules.
 
 ```svelte
-<Elaimant
-	attractionZone
-	--attraction-zone-border={'2px solid hsl(var(--primary))'}
-	--attraction-zone-bg={'red'}
->
+<Elaimant attractionZone --zone-border={'2px solid hsl(var(--primary))'} --zone-bg={'red'}>
 	<!-- ... Your content -->
 </Elaimant>
 ```
 
 ## Caveats
 
-- Using custom CSS `transform` on your given component will not work, as the animation is acheived throught this proprety.
-  A solution to this could be wrapping your element in yet another node, and use the translate on that. I will think a bit more about it, and maybe gather some of your feedback before putting to much headthought in it.
+- Using custom CSS `transform` on your slotted component will not work, as the animation is acheived throught this proprety. This also applies when using the provided class `attracted` to style your element when in attraction.
+
+  A solution to this could be wrapping your element in yet another node, and use the translate on that. I will think a bit more about it, and maybe gather some of your feedback before putting to much energy into it.
+
+- I'm aware of the 'orthogonal/cross' movement when using `mode: 'block'`.
+
+  This is because the distance calculation is made from to the mouse position to the closest border of your element (top, bottom, left, right). Until I can figure how to calculate the distance to the closest point on the perimeter of the element instead, I have not way to fix this.
+  Fortunately, I believe `mode: 'circle'` will be the most used scenario.
 
 If your encountered other bugs, feel free to open an issue on the Github page !

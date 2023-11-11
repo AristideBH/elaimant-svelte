@@ -22,15 +22,15 @@
 	const handleAttracted = (e: CustomEvent) => {
 		attracted = true;
 		dispatch('attracted', {
-			slottedNode: (e.target as HTMLElement).querySelector('*:first-child'),
-			customOptions: options
+			node: (e.target as HTMLElement).querySelector('*:first-child'),
+			options: mergedOptions
 		});
 	};
 	const handleRelease = (e: CustomEvent) => {
 		attracted = false;
 		dispatch('released', {
-			slottedNode: (e.target as HTMLElement).querySelector('*:first-child'),
-			customOptions: options
+			node: (e.target as HTMLElement).querySelector('*:first-child'),
+			options: mergedOptions
 		});
 	};
 </script>
@@ -38,9 +38,9 @@
 <div
 	bind:offsetHeight={slottedHeight}
 	bind:offsetWidth={slottedWidth}
+	use:elaimant={mergedOptions}
 	on:released={handleRelease}
 	on:attracted={handleAttracted}
-	use:elaimant={mergedOptions}
 >
 	<slot {attracted} />
 
@@ -59,8 +59,8 @@
 
 	div > div {
 		box-sizing: content-box;
-		border: var(--attraction-zone-border, 1px dashed lightgrey);
-		background-color: var(--attraction-zone-bg, none);
+		border: var(--zone-border, 1px dashed lightgrey);
+		background-color: var(--zone-bg, none);
 		z-index: -1;
 		position: absolute;
 		top: 50%;

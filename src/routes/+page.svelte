@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Elaimant, { type ElaimantOptions } from '$lib';
+	import Elaimant from '$lib';
 	import { Button } from '$lib/components/ui/button';
 	import { ArrowDownWideNarrow } from 'lucide-svelte';
 
 	let attractedEl: null | EventTarget;
-	const handleAttracted = (e: CustomEvent) => (attractedEl = e.detail.slottedNode.textContent);
+	const handleAttracted = (e: CustomEvent) => (attractedEl = e.detail.node.textContent);
 	const handleReleased = (e: CustomEvent) => (attractedEl = null);
 
 	const description =
@@ -34,7 +34,7 @@
 	<div class="flex flex-col items-center gap-32 md:flex-row gap-y-60 justify-evenly">
 		<Elaimant
 			attractionZone
-			--attraction-zone-border={'1px dashed hsl(var(--primary))'}
+			--zone-border={'1px dashed hsl(var(--primary))'}
 			options={{ triggerDist: 100, mouseOnly: false }}
 			on:attracted={handleAttracted}
 			on:released={handleReleased}
@@ -43,7 +43,7 @@
 		</Elaimant>
 		<Elaimant
 			attractionZone
-			--attraction-zone-border={'1px dashed hsl(var(--primary))'}
+			--zone-border={'1px dashed hsl(var(--primary))'}
 			options={{ mode: 'block', mouseOnly: false }}
 			on:attracted={handleAttracted}
 			on:released={handleReleased}

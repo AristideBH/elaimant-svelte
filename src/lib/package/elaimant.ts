@@ -3,14 +3,6 @@ import type { ActionReturn } from 'svelte/action';
 import { isSlotValid, handleAnimation, calculateDistance } from "./helpers";
 
 // * TYPES
-export enum Speeds {
-    SNAIL = "2000ms",
-    SLOW = "600ms",
-    MEDIUM = "300ms",
-    FAST = "150ms",
-    INSTANT = "8ms"
-}
-
 interface Attributes {
     'on:attracted': (e: CustomEvent<boolean>) => void;
     'on:released': (e: CustomEvent<boolean>) => void;
@@ -18,7 +10,7 @@ interface Attributes {
 
 export type ElaimantOptions = {
     triggerDist: number;
-    speed: keyof typeof Speeds;
+    speed: number;
     mode: 'circle' | 'block'
     dampenAmount: number;
     debug: boolean,
@@ -31,7 +23,7 @@ export type ElaimantOptions = {
 // * DEFAULT PARAMETERS
 export const defaults: ElaimantOptions = {
     triggerDist: 75,
-    speed: 'MEDIUM',
+    speed: 300,
     mode: "circle",
     dampenAmount: 2,
     debug: false,
@@ -48,6 +40,7 @@ export function elaimant(
     options: ElaimantOptions
 ): ActionReturn<ElaimantOptions, Attributes> {
 
+    // TODO : verify slot node lenght 
     if (!isSlotValid(target, options)) return {};
 
     const slotted = target.children[0] as HTMLElement;
