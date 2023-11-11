@@ -7,7 +7,7 @@ function getSpeedValue(speedKey: keyof typeof Speeds): string {
 
 
 // * Slotted element validation
-export function validateSlot(target: Element, options: ElaimantOptions) {
+export function isSlotValid(target: Element, options: ElaimantOptions) {
     const { debug } = options;
 
     if (target.childNodes.length === 0) {
@@ -21,10 +21,10 @@ export function validateSlot(target: Element, options: ElaimantOptions) {
             );
         return false;
     }
-    if (target.children.length > 1 && !target.children[1].classList.contains("attractionZone")) {
-        if (debug) console.warn("🧲 You can only provide one child element to Elaimant");
-        return false;
-    }
+    // if (target.children.length > 1 && !target.children[1].classList.contains("attractionZone")) {
+    //     if (debug) console.warn("🧲 You can only provide one child element to Elaimant");
+    //     return false;
+    // }
 
     return true;
 }
@@ -67,40 +67,19 @@ export function calculateDistance(
 }
 
 
-// * AttractionZone element
-export function CreateAttractionZone(
-    options: Mandatory<ElaimantOptions>,
-    slottedSize: { width: number; height: number; },
-    target: HTMLElement) {
-
-    const attractionZone = document.createElement("div");
-    attractionZone.classList.add("attractionZone");
-    attractionZone.style.padding = options.triggerDist + "px";
-    attractionZone.style.translate = `calc(-50% + ${slottedSize.width / 2}px) calc(-50% + ${slottedSize.height / 2}px)`;
-    attractionZone.style.display = "block";
-    if (options.mode == "block") {
-        attractionZone.style.width = slottedSize.width + 'px'
-        attractionZone.style.height = slottedSize.height + 'px'
-        attractionZone.style.borderRadius = options.triggerDist + 'px'
-    }
-
-    target.appendChild(attractionZone);
-    return attractionZone
-}
-
-
 // * Animate
 export function handleAnimation(event: MouseEvent, target: HTMLElement, slotted: HTMLElement, options: Mandatory<ElaimantOptions>) {
     const { dx, dy, distance } = calculateDistance(event, target, options);
     const { triggerDist, dampenAmount, speed, easing } = options;
 
     function animate() {
-        slotted.style.transition = 'transform ' + getSpeedValue(speed) + " " + easing;
+        slotted.style.transition = 'transform' + ' ' + getSpeedValue(speed) + ' ' + easing;
 
         if (distance < triggerDist) {
             const translateX = dx / dampenAmount;
             const translateY = dy / dampenAmount;
-            slotted.style.transform = `translate(${translateX}px, ${translateY}px)`;
+            const factorCorrection = options.mode == 'block' ? 1.75 : 1;
+            slotted.style.transform = `translate(${translateX * factorCorrection}px, ${translateY * factorCorrection}px)`;
         } else {
             slotted.style.transform = `translate(0px, 0px)`;
         }

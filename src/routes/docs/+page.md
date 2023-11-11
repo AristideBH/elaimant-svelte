@@ -1,3 +1,8 @@
+# What does Elaimant do ?
+
+Elaimant is a simple Sveltekit compoment that applies a magnetic attraction effect to the mouse, to the provided element it wraps.
+It wrap your given element inside a container for translation purpose, but is auto-sized and should not break your design.
+
 > The docs are not complete yet, come back in a bit for more informations
 
 ## Installation
@@ -150,4 +155,7 @@ A very small (277 octets) CSS file is still included, mostly to style the attrac
 
 ## Caveats
 
-I haven't found one yet ! Feel free to open an issue on the Github page.
+- Using custom CSS `transition` on your given component will not work, as the animation is acheived throught this proprety.
+  A solution to this could be wrapping your element in yet another node, and use the translate on that. I will think a bit more about it, and maybe gather some of your feedback before putting to much headthought in it.
+
+If your encounterd other bugs, feel free to open an issue on the Github page !

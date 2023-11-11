@@ -2,6 +2,14 @@
 	import Elaimant from '$lib';
 	import { Button } from '$lib/components/ui/button';
 	import { ArrowDownWideNarrow } from 'lucide-svelte';
+
+	let attractedEl: null | EventTarget;
+	const handleAttracted = (e: CustomEvent) => {
+		attractedEl = e.detail.slottedNode.textContent;
+	};
+	const handleReleased = (e: CustomEvent) => {
+		attractedEl = null;
+	};
 </script>
 
 <svelte:head>
@@ -28,13 +36,30 @@
 	</div>
 </section>
 
-<section class=" flex flex-col md:flex-row gap-32 gap-y-64 items-center justify-evenly">
-	<Elaimant options={{ triggerDist: 100, mouseOnly: false, debug: true }}>
-		<Button variant="secondary">circleMode</Button>
-	</Elaimant>
-	<Elaimant options={{ mode: 'block', mouseOnly: false, debug: true }}>
-		<Button variant="secondary">blockMode</Button>
-	</Elaimant>
+<section class=" flex flex-col gap-y-32">
+	<div class="flex flex-col md:flex-row gap-32 gap-y-60 items-center justify-evenly">
+		<Elaimant
+			attractionZone
+			options={{ triggerDist: 100, mouseOnly: false }}
+			on:attracted={handleAttracted}
+			on:released={handleReleased}
+		>
+			<Button variant="secondary">circleMode</Button>
+		</Elaimant>
+		<Elaimant
+			attractionZone
+			options={{ mode: 'block', mouseOnly: false }}
+			on:attracted={handleAttracted}
+			on:released={handleReleased}
+		>
+			<Button variant="secondary">blockMode</Button>
+		</Elaimant>
+	</div>
+
+	<div class="text-center">
+		Attracted item :
+		{attractedEl ? attractedEl : 'none'}
+	</div>
 </section>
 
 <section class="flex flex-col items-start gap-2 isolate">
@@ -46,6 +71,7 @@
 	section + section {
 		@apply mt-52;
 	}
+
 	:global(button.attracted) {
 		outline: 1px solid hsl(var(--primary));
 	}

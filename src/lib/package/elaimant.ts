@@ -1,6 +1,6 @@
-import "./elaimant.css"
+
 import type { ActionReturn } from 'svelte/action';
-import { validateSlot, handleAnimation, calculateDistance, CreateAttractionZone } from "./helpers";
+import { isSlotValid, handleAnimation, calculateDistance } from "./helpers";
 
 // * TYPES
 export enum Speeds {
@@ -28,7 +28,8 @@ export type ElaimantOptions = {
     debug?: boolean,
     attractedClass?: string,
     easing?: string,
-    mouseOnly?: boolean
+    mouseOnly?: boolean,
+
 }
 
 
@@ -37,35 +38,27 @@ export const defaults: Mandatory<ElaimantOptions> = {
     triggerDist: 75,
     speed: 'MEDIUM',
     mode: "circle",
-    dampenAmount: 2.5,
+    dampenAmount: 2,
     debug: false,
     attractedClass: "attracted",
     easing: "ease-out",
-    mouseOnly: true
+    mouseOnly: true,
 }
-
 
 
 // * ////////////////////////////////
 // * ACTION
 export function elaimant(
     target: HTMLElement,
-    elaimantOptions: ElaimantOptions = defaults
+    elaimantOptions: Mandatory<ElaimantOptions> = defaults
 ): ActionReturn<ElaimantOptions, Attributes> {
 
     const options: Mandatory<ElaimantOptions> = { ...defaults, ...elaimantOptions };
-    if (!validateSlot(target, options)) return {};
+    if (!isSlotValid(target, options)) return {};
 
     const slotted = target.children[0] as HTMLElement;
-    const slottedSize = {
-        width: slotted.getBoundingClientRect().width,
-        height: slotted.getBoundingClientRect().height
-    }
-
     let isAttracted = false,
         isReleased = true;
-
-    if (options.debug) CreateAttractionZone(options, slottedSize, target)
 
     function handleMouse(event: MouseEvent) {
         handleAnimation(event, target, slotted, options);
