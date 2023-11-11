@@ -3,20 +3,21 @@
 	import { defaults, elaimant, type ElaimantOptions, type Mandatory } from './elaimant';
 
 	export let options: ElaimantOptions = defaults;
-	export let attracted: boolean | string = false;
+	export let attracted = false;
 	export let attractionZone = false;
 
 	const mergedOptions: Mandatory<ElaimantOptions> = { ...defaults, ...options };
 
+	// ATTRACTION ZONE
 	let slottedHeight: number;
 	let slottedWidth: number;
 	let attractionStyle: string = `padding: ${mergedOptions.triggerDist}px; border-radius: ${mergedOptions.triggerDist}px;`;
-
 	onMount(() => {
 		if (mergedOptions.mode == 'block')
 			attractionStyle += `width: ${slottedWidth}px; height: ${slottedHeight}px; `;
 	});
 
+	// EVENTS
 	const dispatch = createEventDispatcher();
 	const handleAttracted = (e: CustomEvent) => {
 		attracted = true;

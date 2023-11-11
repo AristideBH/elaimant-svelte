@@ -49,9 +49,8 @@ export const defaults: Mandatory<ElaimantOptions> = {
 // * ACTION
 export function elaimant(
     target: HTMLElement,
-    elaimantOptions: Mandatory<ElaimantOptions>
+    options: Mandatory<ElaimantOptions>
 ): ActionReturn<Mandatory<ElaimantOptions>, Attributes> {
-    const options = elaimantOptions;
 
     if (!isSlotValid(target, options)) return {};
 

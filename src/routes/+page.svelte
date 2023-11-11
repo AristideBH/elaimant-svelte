@@ -65,5 +65,6 @@
 <style lang="postcss">
 	:global(button.attracted) {
 		outline: 1px solid hsl(var(--primary));
+		transform: scale(1.2);
 	}
 </style>
