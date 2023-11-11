@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Elaimant from '$lib';
+	import Elaimant, { type ElaimantOptions } from '$lib';
 	import { Button } from '$lib/components/ui/button';
 	import { ArrowDownWideNarrow } from 'lucide-svelte';
 
