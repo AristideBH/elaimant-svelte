@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte';
-	import { defaults, elaimant, type ElaimantOptions, type Mandatory } from './elaimant';
+	import { defaults, elaimant, type ElaimantOptions } from './elaimant';
 
-	export let options: ElaimantOptions = defaults;
+	export let options: Partial<ElaimantOptions> = defaults;
 	export let attracted = false;
 	export let attractionZone = false;
 
-	const mergedOptions: Mandatory<ElaimantOptions> = { ...defaults, ...options };
+	const mergedOptions: ElaimantOptions = { ...defaults, ...options };
 
 	// ATTRACTION ZONE
 	let slottedHeight: number;

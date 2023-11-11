@@ -11,29 +11,25 @@ export enum Speeds {
     INSTANT = "8ms"
 }
 
-export type Mandatory<T> = {
-    [K in keyof T]-?: T[K];
-};
-
 interface Attributes {
     'on:attracted': (e: CustomEvent<boolean>) => void;
     'on:released': (e: CustomEvent<boolean>) => void;
 }
 
 export type ElaimantOptions = {
-    triggerDist?: number;
-    speed?: keyof typeof Speeds;
-    mode?: 'circle' | 'block'
-    dampenAmount?: number;
-    debug?: boolean,
-    attractedClass?: string,
-    easing?: string,
-    mouseOnly?: boolean,
+    triggerDist: number;
+    speed: keyof typeof Speeds;
+    mode: 'circle' | 'block'
+    dampenAmount: number;
+    debug: boolean,
+    attractedClass: string,
+    easing: string,
+    mouseOnly: boolean,
 }
 
 
 // * DEFAULT PARAMETERS
-export const defaults: Mandatory<ElaimantOptions> = {
+export const defaults: ElaimantOptions = {
     triggerDist: 75,
     speed: 'MEDIUM',
     mode: "circle",
@@ -49,8 +45,8 @@ export const defaults: Mandatory<ElaimantOptions> = {
 // * ACTION
 export function elaimant(
     target: HTMLElement,
-    options: Mandatory<ElaimantOptions>
-): ActionReturn<Mandatory<ElaimantOptions>, Attributes> {
+    options: ElaimantOptions
+): ActionReturn<ElaimantOptions, Attributes> {
 
     if (!isSlotValid(target, options)) return {};
 

@@ -1,4 +1,4 @@
-import { type ElaimantOptions, type Mandatory, Speeds } from "./elaimant";
+import { type ElaimantOptions, Speeds } from "./elaimant";
 
 // * Get the speed value
 function getSpeedValue(speedKey: keyof typeof Speeds): string {
@@ -7,7 +7,7 @@ function getSpeedValue(speedKey: keyof typeof Speeds): string {
 
 
 // * Slotted element validation
-export function isSlotValid(target: Element, options: ElaimantOptions) {
+export function isSlotValid(target: Element, options: Partial<ElaimantOptions>) {
     const { debug } = options;
 
     if (target.childNodes.length === 0) {
@@ -34,7 +34,7 @@ export function isSlotValid(target: Element, options: ElaimantOptions) {
 export function calculateDistance(
     event: MouseEvent,
     target: HTMLElement,
-    options: Mandatory<ElaimantOptions>
+    options: ElaimantOptions
 ): { dx: number, dy: number, distance: number } {
 
     const { mode } = options;
@@ -68,7 +68,7 @@ export function calculateDistance(
 
 
 // * Animate
-export function handleAnimation(event: MouseEvent, target: HTMLElement, slotted: HTMLElement, options: Mandatory<ElaimantOptions>) {
+export function handleAnimation(event: MouseEvent, target: HTMLElement, slotted: HTMLElement, options: ElaimantOptions) {
     const { dx, dy, distance } = calculateDistance(event, target, options);
     const { triggerDist, dampenAmount, speed, easing } = options;
 
