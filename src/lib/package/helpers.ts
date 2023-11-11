@@ -5,7 +5,7 @@ export function isSlotValid(target: Element, options: Partial<ElaimantOptions>) 
     const { debug } = options;
 
     if (target.childNodes.length === 0) {
-        if (debug) console.warn("🧲 You didn't provide any child element to Elaiment");
+        if (debug) console.warn("🧲 You didn't provide any child element to Elaimant");
         return false;
     }
     if (target.childNodes[0].nodeName === '#text') {
@@ -15,10 +15,10 @@ export function isSlotValid(target: Element, options: Partial<ElaimantOptions>) 
             );
         return false;
     }
-    // if (target.children.length > 1 && !target.children[1].classList.contains("attractionZone")) {
-    //     if (debug) console.warn("🧲 You can only provide one child element to Elaimant");
-    //     return false;
-    // }
+    if (target.children.length > 1 && !target.children[1].hasAttribute('data-attractionZone')) {
+        if (debug) console.warn("🧲 You can only provide one child element to Elaimant");
+        return false;
+    }
 
     return true;
 }
@@ -31,13 +31,13 @@ export function calculateDistance(
     options: ElaimantOptions
 ): { dx: number, dy: number, distance: number } {
 
-    const { mode } = options;
     let distance: number,
         dx: number,
         dy: number
     const rect = target.getBoundingClientRect();
 
-    if (mode == "block") {
+    if (options.mode == "block") {
+        // Get the distance from the closest border
         const x = Math.max(rect.left, Math.min(event.clientX, rect.right));
         const y = Math.max(rect.top, Math.min(event.clientY, rect.bottom));
 
@@ -46,6 +46,7 @@ export function calculateDistance(
         distance = Math.sqrt(dx * dx + dy * dy);
 
     } else {
+        // Get the distance from the center 
         const center = {
             x: rect.left + rect.width / 2,
             y: rect.top + rect.height / 2
@@ -63,8 +64,8 @@ export function calculateDistance(
 
 // * Animate
 export function handleAnimation(event: MouseEvent, target: HTMLElement, slotted: HTMLElement, options: ElaimantOptions) {
-    const { dx, dy, distance } = calculateDistance(event, target, options);
     const { triggerDist, dampenAmount, speed, easing } = options;
+    const { dx, dy, distance } = calculateDistance(event, target, options);
 
     function animate() {
         slotted.style.transition = 'transform' + ' ' + speed + 'ms ' + easing;
@@ -72,7 +73,7 @@ export function handleAnimation(event: MouseEvent, target: HTMLElement, slotted:
         if (distance < triggerDist) {
             const translateX = dx / dampenAmount;
             const translateY = dy / dampenAmount;
-            const factorCorrection = options.mode == 'block' ? 1.75 : 1;
+            const factorCorrection = options.mode == 'block' ? 1.75 : 1; // adapt factor depending on the mode
             slotted.style.transform = `translate(${translateX * factorCorrection}px, ${translateY * factorCorrection}px)`;
         } else {
             slotted.style.transform = `translate(0px, 0px)`;

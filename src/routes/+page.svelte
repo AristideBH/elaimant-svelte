@@ -6,6 +6,7 @@
 	let attractedEl: null | EventTarget;
 	const handleAttracted = (e: CustomEvent) => (attractedEl = e.detail.node.textContent);
 	const handleReleased = (e: CustomEvent) => (attractedEl = null);
+	let ZoneBorder = '1px dashed hsl(var(--primary))';
 
 	const description =
 		'Elaimant, pronounced [ɛlɛmɑ̃], is a simple yet fully customizable Sveltekit component to add magnetic attraction to your content when the cursor gets close to it. Style-free and no dependencies.';
@@ -34,7 +35,7 @@
 	<div class="flex flex-col items-center gap-32 md:flex-row gap-y-60 justify-evenly">
 		<Elaimant
 			attractionZone
-			--zone-border={'1px dashed hsl(var(--primary))'}
+			--zone-border={ZoneBorder}
 			options={{ triggerDist: 100, mouseOnly: false }}
 			on:attracted={handleAttracted}
 			on:released={handleReleased}
@@ -43,7 +44,7 @@
 		</Elaimant>
 		<Elaimant
 			attractionZone
-			--zone-border={'1px dashed hsl(var(--primary))'}
+			--zone-border={ZoneBorder}
 			options={{ mode: 'block', mouseOnly: false }}
 			on:attracted={handleAttracted}
 			on:released={handleReleased}
@@ -58,7 +59,7 @@
 </section>
 
 <section class="flex flex-col items-start gap-2 isolate">
-	<p class="lead text-balance">Consult the documentation to install and options</p>
+	<p class="lead text-balance">Want to install and customize Elaimant ?</p>
 	<Button href="/docs" class="no-underline" variant="outline">Read the documentation</Button>
 </section>
 

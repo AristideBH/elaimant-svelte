@@ -12,7 +12,7 @@
 	class="sticky top-0 z-50 flex flex-wrap items-center justify-between gap-3 py-4 border-b lg:py-8 bg-background"
 >
 	<a href="/" class="no-underline text-foreground">
-		<h1 class="tracking-wide">elaimant</h1>
+		<h1 class="tracking-wide">Elaimant</h1>
 	</a>
 	<nav class="flex gap-1.5 ms-auto">
 		<!-- <code class="hidden px-3 sm:block bg-muted">npm i @arisbh/coulisse</code> -->

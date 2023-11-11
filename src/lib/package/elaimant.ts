@@ -40,12 +40,10 @@ export function elaimant(
     options: ElaimantOptions
 ): ActionReturn<ElaimantOptions, Attributes> {
 
-    // TODO : verify slot node lenght 
     if (!isSlotValid(target, options)) return {};
 
     const slotted = target.children[0] as HTMLElement;
-    let isAttracted = false,
-        isReleased = true;
+    let isAttracted = false
 
     function initElaimant(event: MouseEvent) {
         handleAnimation(event, target, slotted, options);
@@ -53,26 +51,19 @@ export function elaimant(
         const { triggerDist, attractedClass } = options;
         const { distance } = calculateDistance(event, target, options);
 
-        if (distance < triggerDist && isReleased) {
+        if (distance < triggerDist && !isAttracted) {
             slotted.classList.add(attractedClass);
             target.dispatchEvent(new CustomEvent('attracted'));
             isAttracted = true;
-            isReleased = false;
         } else if (distance >= triggerDist && isAttracted) {
             slotted.classList.remove(attractedClass);
             target.dispatchEvent(new CustomEvent('released'));
             isAttracted = false;
-            isReleased = true;
         }
     }
 
-    if (options.mouseOnly) {
-        if (window.matchMedia('(hover: hover)').matches) {
-            window.addEventListener("mousemove", initElaimant);
-        }
-    } else {
+    if (!options.mouseOnly || window.matchMedia('(hover: hover)').matches) {
         window.addEventListener("mousemove", initElaimant);
-
     }
 
     return {

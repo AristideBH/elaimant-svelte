@@ -45,7 +45,7 @@
 	<slot {attracted} />
 
 	{#if attractionZone}
-		<div aria-hidden="true" style={attractionStyle} />
+		<div aria-hidden="true" style={attractionStyle} data-attractionZone />
 	{/if}
 </div>
 
