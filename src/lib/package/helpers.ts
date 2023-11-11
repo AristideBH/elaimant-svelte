@@ -31,31 +31,21 @@ export function calculateDistance(
     options: ElaimantOptions
 ): { dx: number, dy: number, distance: number } {
 
-    let distance: number,
-        dx: number,
-        dy: number
     const rect = target.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
 
-    if (options.mode == "block") {
-        // Get the distance from the closest border
-        const x = Math.max(rect.left, Math.min(event.clientX, rect.right));
-        const y = Math.max(rect.top, Math.min(event.clientY, rect.bottom));
+    const x = (options.mode === "block")
+        ? Math.max(rect.left, Math.min(event.clientX, rect.right))
+        : centerX;
+    const y = (options.mode === "block")
+        ? Math.max(rect.top, Math.min(event.clientY, rect.bottom))
+        : centerY;
 
-        dx = event.clientX - x;
-        dy = event.clientY - y;
-        distance = Math.sqrt(dx * dx + dy * dy);
+    const dx = event.clientX - x;
+    const dy = event.clientY - y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
 
-    } else {
-        // Get the distance from the center 
-        const center = {
-            x: rect.left + rect.width / 2,
-            y: rect.top + rect.height / 2
-        };
-
-        dx = event.clientX - center.x;
-        dy = event.clientY - center.y;
-        distance = Math.sqrt(dx * dx + dy * dy);
-    }
     if (options.debug) console.log(`🧲 Distance: ${Math.round(distance)} px`);
 
     return { dx, dy, distance };
@@ -64,21 +54,20 @@ export function calculateDistance(
 
 // * Animate
 export function handleAnimation(event: MouseEvent, target: HTMLElement, slotted: HTMLElement, options: ElaimantOptions) {
-    const { triggerDist, dampenAmount, speed, easing } = options;
+    const { triggerDist, dampenAmount, speed, easing, mode } = options;
     const { dx, dy, distance } = calculateDistance(event, target, options);
 
+    slotted.style.transition = 'transform' + ' ' + speed + 'ms ' + easing;
+
     function animate() {
-        slotted.style.transition = 'transform' + ' ' + speed + 'ms ' + easing;
+        const shouldTranslate = distance < triggerDist;
 
-        if (distance < triggerDist) {
-            const translateX = dx / dampenAmount;
-            const translateY = dy / dampenAmount;
-            const factorCorrection = options.mode == 'block' ? 1.75 : 1; // adapt factor depending on the mode
-            slotted.style.transform = `translate(${translateX * factorCorrection}px, ${translateY * factorCorrection}px)`;
+        if (shouldTranslate) {
+            const factorCorrection = mode === 'block' ? 1.75 : 1; // adapt factor depending on the mode
+            slotted.style.transform = `translate(${dx / dampenAmount * factorCorrection}px, ${dy / dampenAmount * factorCorrection}px)`;
         } else {
-            slotted.style.transform = `translate(0px, 0px)`;
+            slotted.style.transform = 'translate(0px, 0px)';
         }
-
         window.requestAnimationFrame(animate);
     }
 

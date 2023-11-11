@@ -58,7 +58,7 @@
 	</p>
 </section>
 
-<section class="flex flex-col items-start gap-2 isolate">
+<section class="flex flex-col items-start gap-2 mt-auto isolate">
 	<p class="lead text-balance">Want to install and customize Elaimant ?</p>
 	<Button href="/docs" class="no-underline" variant="outline">Read the documentation</Button>
 </section>
