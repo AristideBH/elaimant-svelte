@@ -2,6 +2,8 @@
 
 Elaimant is a simple Sveltekit compoment that applies a magnetic attraction effect to the provided element it wraps, based on the mouse position.
 
+Here's a quick demo/playground in [Svelte REPL](https://svelte.dev/repl/d0a2e05d02ae4b4f8c4e4855df510ad2?version=4.2.3)
+
 ## Installation
 
 Use your preferred node package manager.
@@ -61,7 +63,7 @@ Or construct an object with the type `ElaimantOptions`, and use it inside the co
 ```ts
 import Elaimant, type { ElaimantOptions } from '@arisbh/elaimant';
 
-const Options: ElaimantOptions = {
+const options: ElaimantOptions = {
 	triggerDist: 75,
 	speed: 300
 	//...

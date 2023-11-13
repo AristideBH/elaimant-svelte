@@ -4,10 +4,14 @@
 	import { ArrowDownWideNarrow, Magnet } from 'lucide-svelte';
 
 	let attractedEl: null | EventTarget;
-	const handleAttracted = (e: CustomEvent) => {
-		attractedEl = e.detail.slotted[0].textContent;
+
+	const handleElaimant = (e: CustomEvent) => {
+		if (e.type === 'attracted') {
+			attractedEl = e.detail.slotted[0].textContent;
+		} else if (e.type === 'released') {
+			attractedEl = null;
+		}
 	};
-	const handleReleased = () => (attractedEl = null);
 
 	const description =
 		'Elaimant, pronounced [ɛlɛmɑ̃], is a simple yet fully customizable Sveltekit component to add magnetic attraction to your content when the cursor gets close to it. Style-free and no dependencies.';
@@ -37,8 +41,8 @@
 		<Elaimant
 			attractionZone
 			options={{ triggerDist: 100, mouseOnly: false }}
-			on:attracted={handleAttracted}
-			on:released={handleReleased}
+			on:attracted={handleElaimant}
+			on:released={handleElaimant}
 			let:attracted
 		>
 			<Button variant="secondary" class="transition-transform">
@@ -52,8 +56,8 @@
 		<Elaimant
 			attractionZone
 			options={{ mode: 'block', mouseOnly: false }}
-			on:attracted={handleAttracted}
-			on:released={handleReleased}
+			on:attracted={handleElaimant}
+			on:released={handleElaimant}
 			let:attracted
 		>
 			<Button variant="secondary" class="transition-transform">

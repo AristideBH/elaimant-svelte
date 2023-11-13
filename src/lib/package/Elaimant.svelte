@@ -21,15 +21,17 @@
 
 	// * EVENTS
 	const dispatch = createEventDispatcher();
-	const handleAttracted = (e: CustomEvent) => {
-		attracted = true;
+	const handleElaimant = (e: CustomEvent) => {
 		const slotted = getSlottedNodes(e.target as HTMLElement);
-		dispatch('attracted', { slotted: slotted, options: mergedOptions });
-	};
-	const handleRelease = (e: CustomEvent) => {
-		attracted = false;
-		const slotted = getSlottedNodes(e.target as HTMLElement);
-		dispatch('released', { slotted: slotted, options: mergedOptions });
+
+		if (e.type === 'attracted') {
+			attracted = true;
+			dispatch('attracted', { slotted: slotted, options: mergedOptions });
+		} else if (e.type === 'released') {
+			attracted = false;
+			const slotted = getSlottedNodes(e.target as HTMLElement);
+			dispatch('released', { slotted: slotted, options: mergedOptions });
+		}
 	};
 </script>
 
@@ -37,8 +39,8 @@
 	<div
 		data-elaimant
 		use:elaimant={mergedOptions}
-		on:released={handleRelease}
-		on:attracted={handleAttracted}
+		on:released={handleElaimant}
+		on:attracted={handleElaimant}
 	>
 		<div data-attractionTransformer>
 			<slot {attracted} />
