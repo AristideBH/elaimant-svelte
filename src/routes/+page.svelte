@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Elaimant from '$lib';
 	import { Button } from '$lib/components/ui/button';
-	import { ArrowDownWideNarrow } from 'lucide-svelte';
+	import { ArrowDownWideNarrow, Magnet } from 'lucide-svelte';
 
 	let attractedEl: null | EventTarget;
 	const handleAttracted = (e: CustomEvent) => (attractedEl = e.detail.node.textContent);
@@ -37,16 +37,28 @@
 			options={{ triggerDist: 100, mouseOnly: false }}
 			on:attracted={handleAttracted}
 			on:released={handleReleased}
+			let:attracted
 		>
-			<Button variant="secondary" class="transition-transform">circleMode</Button>
+			<Button variant="secondary" class="transition-transform">
+				circleMode
+				{#if attracted}
+					<Magnet class="absolute w-3 h-3 opacity-30 top-1 right-1" />
+				{/if}
+			</Button>
 		</Elaimant>
 		<Elaimant
 			attractionZone
 			options={{ mode: 'block', mouseOnly: false }}
 			on:attracted={handleAttracted}
 			on:released={handleReleased}
+			let:attracted
 		>
-			<Button variant="secondary" class="transition-transform">blockMode</Button>
+			<Button variant="secondary" class="transition-transform">
+				blockMode
+				{#if attracted}
+					<Magnet class="absolute w-3 h-3 opacity-30 top-1 right-1" />
+				{/if}
+			</Button>
 		</Elaimant>
 	</div>
 
