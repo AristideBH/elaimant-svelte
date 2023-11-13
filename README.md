@@ -1,4 +1,6 @@
-> The docs are not complete yet, come back in a bit for more informations
+## What does it do ?
+
+Elaimant is a simple Sveltekit compoment that applies a magnetic attraction effect to the provided element it wraps, based on the mouse position.
 
 ## Installation
 
@@ -15,7 +17,7 @@ Use your preferred node package manager.
 Import the `Elaimant` component, and wrap your content with it.
 
 ```svelte
-<script lang="ts">
+<script>
 	import Elaimant from '@arisbh/elaimant';
 </script>
 
@@ -24,23 +26,29 @@ Import the `Elaimant` component, and wrap your content with it.
 </Elaimant>
 ```
 
-The component is designed to only receive **one** child element, and doesn't accept just text node. Some checks are in place, and Elaimant will not start otherwise.
+## Props
 
-> Make sure your content is inside an HTML tag (div, span, button, etc) !
+### Attraction zone
 
-## Options
+To show the zone where your cursor will start magnetising your element, simple use the `attractionZone` prop.
 
-To pass options, you have two solutions.
+```svelte
+<Elaimant attractionZone>
+	<!-- ... Your content -->
+</Elaimant>
+```
 
-Directly inside the `Elaimant` component, with the options prop (Typescript autosuggestion enabled) :
+### Options
+
+To customize Elaimant behaviour, you can pass your options in two ways.
+
+Directly inside the `Elaimant` component, with the `options` prop (Typescript autosuggestions enabled).
 
 ```svelte
 <Elaimant
 	options={{
 		triggerDist: 75,
-		speed: 'MEDIUM',
-		mode: 'circle',
-		dampenAmount: 2.5
+		speed: 300
 		//...
 	}}
 >
@@ -48,19 +56,16 @@ Directly inside the `Elaimant` component, with the options prop (Typescript auto
 </Elaimant>
 ```
 
----
-
-Or construct an object with the type `ElaimantOptions`, and use it inside the component :
+Or construct an object with the type `ElaimantOptions`, and use it inside the component.
 
 ```ts
-	import Elaimant, type { ElaimantOptions } from '@arisbh/elaimant';
-	const Options: ElaimantOptions = {
-		triggerDist: 75,
-		speed: 'MEDIUM',
-		mode: 'circle',
-		dampenAmount: 2.5;
-		//...
-	}
+import Elaimant, type { ElaimantOptions } from '@arisbh/elaimant';
+
+const Options: ElaimantOptions = {
+	triggerDist: 75,
+	speed: 300
+	//...
+}
 ```
 
 ```svelte
@@ -69,20 +74,17 @@ Or construct an object with the type `ElaimantOptions`, and use it inside the co
 </Elaimant>
 ```
 
----
+Here are the default `options` when none are passed to the Elaimant components.
 
-Here are the default options when none are passed to the Elaimant components.
-
-| Props            | Default       | Type                                                     | Description (WIP) |
-| ---------------- | ------------- | -------------------------------------------------------- | ----------------- |
-| `triggerDist`    | `75 `         | `number`                                                 | ...               |
-| `speed`          | `'MEDIUM'`    | `'SNAIL'`, `'SLOW'`, `'MEDIUM'`, `'FAST'` or `'INSTANT'` | ...               |
-| `mode`           | `'circle'`    | `'circle'` or `'block'`                                  | ...               |
-| `dampenAmount`   | `2.5`         | `number`                                                 | ...               |
-| `debug`          | `false`       | `boolean`                                                | ...               |
-| `attractedClass` | `'attracted'` | `string`                                                 | ...               |
-| `easing`         | `ease-out`    | `string`, use an CSS easing function (bezier supported)  | ...               |
-| `mouseOnly`      | `true`        | `boolean`                                                | ...               |
+| Props          | Default    | Type                              | Description (WIP)                                                            |
+| -------------- | ---------- | --------------------------------- | ---------------------------------------------------------------------------- |
+| `triggerDist`  | `75 `      | `number` in pixel                 | The minimal distance at which the element is attracted                       |
+| `speed`        | `300`      | `number` in millisecond           | The speed the element will be attracted, magnet force if you want            |
+| `easing`       | `ease-out` | `string`, any CSS easing function | The easing function the element will follow upon movement                    |
+| `mode`         | `'circle'` | `'circle'` or `'block'`           | View "In depth" section below                                                |
+| `dampenAmount` | `2`        | `number`                          | The factor of movement the element will go (1 to be completely on the mouse) |
+| `mouseOnly`    | `true`     | `boolean`                         | View "In depth" section below                                                |
+| `debug`        | `false`    | `boolean`                         | Logs debugging informations in the console                                   |
 
 ### In depth
 
@@ -90,43 +92,56 @@ Here are the default options when none are passed to the Elaimant components.
 
 #### mode
 
-> writing documentation
+Elaimant provides two mode to interpret the attraction zone:
+
+- circle :
+  This create a simple circle from the center of your element, with paddings set to the trigger distance.
+  It is better suited for squarish elements.
+- block :
+  This create a box around your component, taking into account its size and the trigger distance.
+  It is better suited for elements with eneven width and height.
 
 ---
 
 #### mouseOnly
 
-> writing documentation
+Smartphones browsers do not have a `hover` state on elements, thus, this effect is not quite appropriate.
+By default, if the module detects unsupported `hover`, no event listener will be added to your content, keeping the calculations to zero.
+
+Overwise, if you still want to force the effect, you can with this options. Your content will move toward your touch position inside the attraction zone, and released when something else is touch.
 
 ## Events
 
-Elaimant comes with two events to customize your desired behaviour.
+### Directives
+
+Elaimant comes with two events to interact with it.
 
 - `on:attracted` triggers once when the mouse enters the attraction zone.
 - `on:released` triggers once when the mouse leaves the attraction zone.
 
+```ts
+const handleElaimant = (e: CustomEvent) => {
+	const { slotted, options } = e.detail;
+};
+```
+
 ```svelte
-<Elaimant
-	on:attracted={() => {
-		//.. do whatever
-	}}
-	on:released={() => {
-		//.. do whatever
-	}}
->
+<Elaimant on:attracted={handleElaimant} on:released={handleElaimant}>
 	<!-- ... Your content -->
 </Elaimant>
 ```
 
----
+Both of these will return an event prop, containing a reference to your slotted elements and given options.
+
+### Variable
 
 It also bubbles up the `attracted` boolean for added flexibility inside your content,
 
 ```svelte
 <Elaimant let:attracted>
-	<div>
-		isAttracted:{attracted}
-	</div>
+	<YourContent>
+		isAttracted: {attracted}
+	</YourContent>
 </Elaimant>
 ```
 
@@ -134,20 +149,38 @@ It also bubbles up the `attracted` boolean for added flexibility inside your con
 
 Elaimant is nearly style-free, and should not interfere with your setup.
 
-However, it adds a class when your component when is attracted, and is up to you to style.
+However, it adds a `[data-attracted]` attribute to your elements when they are attracted, allowing you to style them how you want.
 
 ```css
-:global(div.attracted) {
+:global([data-attracted='true']) {
 	outline: 1px solid hsl(var(--primary));
+	transform: scale(1.2);
 }
 ```
 
----
+### AttractionZone
 
-By default, the class is `attracted`, but you can override with `options.attractedClass`.
+You can use the class directive on Elaimant to specify dedicated CSS variables.
+Make sure to pass correct CSS rules.
 
-A very small (277 octet) css file is still included, mostly to style the attractation zone when `options.debug` is activated.
+> Be aware that using custom CSS properties will wrap your component into another div.
+> This is default [Svelte behaviour](https://svelte.dev/docs/component-directives#style-props).
+
+```svelte
+<Elaimant attractionZone --zone-border={'2px solid hsl(var(--primary))'} --zone-bg={'red'}>
+	<!-- ... Your content -->
+</Elaimant>
+```
+
+You can also style them globaly defining them in your `:root` CSS selector.
+
+To give you the most versatile behaviour, the `[data-attracted]` attribute is also added to the attraction zone. Make sure your to target them indivually when necessary.
 
 ## Caveats
 
-I haven't found one yet ! Feel free to open an issue on the Github page.
+- I am aware of the 'orthogonal/cross' movement when using `mode: 'block'`.
+
+  This is because the distance is calculated from the mouse position to the closest border of your element (top, bottom, left or right). Until I can figure how to do it from the closest point on the perimeter, I have no way to fix this.
+  Fortunately, I believe `mode: 'circle'` will mostly be used.
+
+If your encountered other bugs, feel free to open an issue on the Github page !

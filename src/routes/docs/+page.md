@@ -17,7 +17,7 @@ Use your preferred node package manager.
 Import the `Elaimant` component, and wrap your content with it.
 
 ```svelte
-<script lang="ts">
+<script>
 	import Elaimant from '@arisbh/elaimant';
 </script>
 
