@@ -76,16 +76,15 @@ const Options: ElaimantOptions = {
 
 Here are the default options when none are passed to the Elaimant components.
 
-| Props               | Default       | Type                              | Description (WIP) |
-| ------------------- | ------------- | --------------------------------- | ----------------- |
-| `triggerDist`       | `75 `         | `number` in pixel                 | ...               |
-| `speed`             | `300`         | `number` in millisecond           | ...               |
-| `easing`            | `ease-out`    | `string`, any CSS easing function | ...               |
-| `mode`              | `'circle'`    | `'circle'` or `'block'`           | ...               |
-| `dampenAmount`      | `2`           | `number`                          | ...               |
-| `attractedAttrName` | `'attracted'` | `string`                          | ...               |
-| `mouseOnly`         | `true`        | `boolean`                         | ...               |
-| `debug`             | `false`       | `boolean`                         | ...               |
+| Props          | Default    | Type                              | Description (WIP) |
+| -------------- | ---------- | --------------------------------- | ----------------- |
+| `triggerDist`  | `75 `      | `number` in pixel                 | ...               |
+| `speed`        | `300`      | `number` in millisecond           | ...               |
+| `easing`       | `ease-out` | `string`, any CSS easing function | ...               |
+| `mode`         | `'circle'` | `'circle'` or `'block'`           | ...               |
+| `dampenAmount` | `2`        | `number`                          | ...               |
+| `mouseOnly`    | `true`     | `boolean`                         | ...               |
+| `debug`        | `false`    | `boolean`                         | ...               |
 
 ### In depth
 
@@ -132,7 +131,7 @@ const handleElaimant = (e: CustomEvent) => {
 </Elaimant>
 ```
 
-Both of these will return an event prop, typed as `CustomEvent`, and containing a reference to your slotted Elements and options.
+Both of these will return an event prop, containing a reference to your slotted elements and given options.
 
 ### Variable
 
@@ -150,9 +149,7 @@ It also bubbles up the `attracted` boolean for added flexibility inside your con
 
 Elaimant is nearly style-free, and should not interfere with your setup.
 
-### Your content
-
-However, it adds a data attribute to your elements when they are attracted, allowing you to style them how you want.
+However, it adds a `[data-attracted]` attribute to your elements when they are attracted, allowing you to style them how you want.
 
 ```css
 :global([data-attracted='true']) {
@@ -160,8 +157,6 @@ However, it adds a data attribute to your elements when they are attracted, allo
 	transform: scale(1.2);
 }
 ```
-
-By default, the attribute is `[data-attracted]`, but you can override it with `options.attractedAttrName`.
 
 ### AttractionZone
 
@@ -178,6 +173,8 @@ Make sure to pass correct CSS rules.
 ```
 
 You can also style them globaly defining them in your `:root` CSS selector.
+
+To give you the most versatile behaviour, the `[data-attracted]` attribute is also added to the attraction zone. Make sure your to target them indivually when necessary.
 
 ## Caveats
 

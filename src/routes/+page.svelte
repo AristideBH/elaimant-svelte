@@ -7,7 +7,7 @@
 	const handleAttracted = (e: CustomEvent) => {
 		attractedEl = e.detail.slotted[0].textContent;
 	};
-	const handleReleased = (e: CustomEvent) => (attractedEl = null);
+	const handleReleased = () => (attractedEl = null);
 
 	const description =
 		'Elaimant, pronounced [ɛlɛmɑ̃], is a simple yet fully customizable Sveltekit component to add magnetic attraction to your content when the cursor gets close to it. Style-free and no dependencies.';
@@ -80,7 +80,7 @@
 		--zone-border: 2px dashed hsl(var(--muted));
 	}
 
-	:global([data-attracted='true']) {
+	:global(button[data-attracted='true']) {
 		outline: 1px solid hsl(var(--primary));
 		transform: scale(1.035);
 	}

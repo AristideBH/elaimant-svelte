@@ -13,7 +13,6 @@ export type ElaimantOptions = {
     mode: 'circle' | 'block'
     dampenAmount: number;
     debug: boolean,
-    attractedAttrName: string,
     easing: string,
     mouseOnly: boolean,
     attractionZone?: boolean
@@ -27,7 +26,6 @@ export const defaults: ElaimantOptions = {
     mode: "circle",
     dampenAmount: 2,
     debug: false,
-    attractedAttrName: "attracted",
     easing: "ease-out",
     mouseOnly: true,
 }
@@ -49,14 +47,16 @@ export function elaimant(
     function initElaimant(event: MouseEvent) {
         handleAnimation(event, target, transformer, options);
 
-        const { triggerDist, attractedAttrName } = options;
+        const { triggerDist } = options;
         const { distance } = calculateDistance(event, target, options);
 
         const attractedAttribute = (isAttracted: boolean) => {
-            for (const x of Array.from(transformer.children)) {
-                x.setAttribute(`data-${attractedAttrName}`, !isAttracted ? "false" : "true")
+            for (const node of Array.from(transformer.children)) {
+                node.setAttribute(`data-attracted`, !isAttracted ? "false" : "true")
             }
-            transformer.children[0]
+            (target.querySelector('[data-attractionZone]') as HTMLElement)
+                .setAttribute(`data-attracted`, !isAttracted ? "false" : "true")
+
         }
         attractedAttribute(isAttracted)
 
