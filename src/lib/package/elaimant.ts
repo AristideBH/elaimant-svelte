@@ -1,6 +1,5 @@
-
 import type { ActionReturn } from 'svelte/action';
-import { isSlotValid, handleAnimation, calculateDistance } from "./helpers";
+import { handleAnimation, calculateDistance, styleAttractionZone } from "./helpers";
 
 // * TYPES
 interface Attributes {
@@ -14,9 +13,10 @@ export type ElaimantOptions = {
     mode: 'circle' | 'block'
     dampenAmount: number;
     debug: boolean,
-    attractedClass: string,
+    attractedAttrName: string,
     easing: string,
     mouseOnly: boolean,
+    attractionZone?: boolean
 }
 
 
@@ -27,7 +27,7 @@ export const defaults: ElaimantOptions = {
     mode: "circle",
     dampenAmount: 2,
     debug: false,
-    attractedClass: "attracted",
+    attractedAttrName: "attracted",
     easing: "ease-out",
     mouseOnly: true,
 }
@@ -39,26 +39,33 @@ export function elaimant(
     target: HTMLElement,
     options: ElaimantOptions
 ): ActionReturn<ElaimantOptions, Attributes> {
+    const transformer = target.children[0] as HTMLElement;
+    if (!transformer) return {}
 
-    if (!isSlotValid(target, options)) return {};
-
-    const slotted = target.children[0] as HTMLElement;
     let isAttracted = false
 
-    function initElaimant(event: MouseEvent) {
-        handleAnimation(event, target, slotted, options);
+    styleAttractionZone(target, options)
 
-        const { triggerDist, attractedClass } = options;
+    function initElaimant(event: MouseEvent) {
+        handleAnimation(event, target, transformer, options);
+
+        const { triggerDist, attractedAttrName } = options;
         const { distance } = calculateDistance(event, target, options);
 
+        const attractedAttribute = (isAttracted: boolean) => {
+            for (const x of Array.from(transformer.children)) {
+                x.setAttribute(`data-${attractedAttrName}`, !isAttracted ? "false" : "true")
+            }
+            transformer.children[0]
+        }
+        attractedAttribute(isAttracted)
+
         if (distance < triggerDist && !isAttracted) {
-            slotted.classList.add(attractedClass);
-            target.dispatchEvent(new CustomEvent('attracted'));
             isAttracted = true;
+            target.dispatchEvent(new CustomEvent('attracted'));
         } else if (distance >= triggerDist && isAttracted) {
-            slotted.classList.remove(attractedClass);
-            target.dispatchEvent(new CustomEvent('released'));
             isAttracted = false;
+            target.dispatchEvent(new CustomEvent('released'));
         }
     }
 
