@@ -88,7 +88,6 @@ Here are the default `options` when none are passed to the Elaimant components.
 
 ### In depth
 
----
 
 #### mode
 
@@ -101,7 +100,6 @@ Elaimant provides two mode to interpret the attraction zone:
   This create a box around your component, taking into account its size and the trigger distance.
   It is better suited for elements with eneven width and height.
 
----
 
 #### mouseOnly
 

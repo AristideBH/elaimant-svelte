@@ -49,18 +49,19 @@
 		"tailwindcss": "^3.3.5",
 		"tslib": "^2.6.2",
 		"typescript": "^5.2.2",
-		"vite": "^4.5.0"
-	},
-	"svelte": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"type": "module",
-	"dependencies": {
+		"vite": "^4.5.0",
 		"bits-ui": "^0.9.4",
 		"clsx": "^2.0.0",
 		"lucide-svelte": "^0.292.0",
 		"mode-watcher": "^0.0.7",
 		"tailwind-merge": "^2.0.0",
 		"tailwind-variants": "^0.1.18"
+	},
+	"svelte": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"type": "module",
+	"dependencies": {
+	
 	},
 	"publishConfig": {
 		"access": "public",
