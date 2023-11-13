@@ -40,7 +40,7 @@ export function calculateDistance(
     const dy = event.clientY - y;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    if (options.debug) console.log(`🧲 Distance: ${Math.round(distance)} px`);
+    if (options.debug) console.log(`📏 Distance: ${Math.round(distance)} px`);
 
     return { dx, dy, distance };
 }

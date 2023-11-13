@@ -96,18 +96,18 @@ Here are the default options when none are passed to the Elaimant components.
 Elaimant provides two mode to interpret the attraction zone:
 
 - circle :
-  This create a simple circle from the center of your element, with padding set to the trigger distance.
-  It is better suited for squarish element.
+  This create a simple circle from the center of your element, with paddings set to the trigger distance.
+  It is better suited for squarish elements.
 - block :
   This create a box around your component, taking into account its size and the trigger distance.
-  It is better suited for element with eneven width and height.
+  It is better suited for elements with eneven width and height.
 
 ---
 
 #### mouseOnly
 
 Smartphones browsers do not have a `hover` state on elements, thus, this effect is not quite appropriate.
-By default, if the module detect the client doesn't support `hover`, no event listener will be added to your content, keeping the calculation to zero.
+By default, if the module detects unsupported `hover`, no event listener will be added to your content, keeping the calculations to zero.
 
 Overwise, if you still want to force the effect, you can with this options. Your content will move toward your touch position inside the attraction zone, and released when something else is touch.
 

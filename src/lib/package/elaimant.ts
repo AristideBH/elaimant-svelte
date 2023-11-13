@@ -62,9 +62,11 @@ export function elaimant(
 
         if (distance < triggerDist && !isAttracted) {
             isAttracted = true;
+            if (options.debug) console.log('🧲 Element attracted')
             target.dispatchEvent(new CustomEvent('attracted'));
         } else if (distance >= triggerDist && isAttracted) {
             isAttracted = false;
+            if (options.debug) console.log('🧲 Element release')
             target.dispatchEvent(new CustomEvent('released'));
         }
     }

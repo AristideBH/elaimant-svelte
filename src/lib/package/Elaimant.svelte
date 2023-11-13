@@ -15,7 +15,7 @@
 
 	// * SLOT CHECK
 	if (!$$slots.default) {
-		if (options.debug) console.error('Please wrap something inside the Elaimant component.');
+		if (options.debug) console.error('📦 Please wrap something inside the Elaimant component.');
 		renderElaimant = false;
 	}
 
