@@ -67,3 +67,12 @@ export function handleAnimation(event: MouseEvent, target: HTMLElement, transfor
 
     window.requestAnimationFrame(animate);
 }
+
+
+// * Get Slotted
+
+export const getSlottedNodes = (element: HTMLElement) => {
+    return element.querySelector(
+        '[data-attractionTransformer]'
+    )!.children
+}

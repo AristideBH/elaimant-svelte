@@ -8,10 +8,8 @@
 			const copyBtn = document.createElement('button');
 			const copyText = 'Copy';
 			const copiedText = '✓ Copied';
-			// Set the button's attributes
 			copyBtn.innerHTML = copyText;
 
-			// Add an event listener to the button (optional)
 			copyBtn.addEventListener('click', () => {
 				const code = block.getElementsByTagName('code')[0].textContent;
 

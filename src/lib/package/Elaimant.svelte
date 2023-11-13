@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { defaults, elaimant, type ElaimantOptions } from './elaimant';
+	import { getSlottedNodes } from './helpers';
 
+	// * PROPS
 	let renderElaimant = true;
 	export let options: Partial<Omit<ElaimantOptions, 'attractionZone'>> = defaults;
 	export let attractionZone = false;
@@ -21,17 +23,13 @@
 	const dispatch = createEventDispatcher();
 	const handleAttracted = (e: CustomEvent) => {
 		attracted = true;
-		dispatch('attracted', {
-			node: (e.target as HTMLElement).querySelector('[data-attractionTransformer] *:first-child'),
-			options: mergedOptions
-		});
+		const slotted = getSlottedNodes(e.target as HTMLElement);
+		dispatch('attracted', { slotted: slotted, options: mergedOptions });
 	};
 	const handleRelease = (e: CustomEvent) => {
 		attracted = false;
-		dispatch('released', {
-			node: (e.target as HTMLElement).querySelector('[data-attractionTransformer] *:first-child'),
-			options: mergedOptions
-		});
+		const slotted = getSlottedNodes(e.target as HTMLElement);
+		dispatch('released', { slotted: slotted, options: mergedOptions });
 	};
 </script>
 
@@ -69,6 +67,6 @@
 		translate: -50% -50%;
 		pointer-events: none;
 		border: var(--zone-border, 2px dashed hsla(0, 0%, 100%, 0.15));
-		background-color: var(--zone-bg, none);
+		background: var(--zone-bg, none);
 	}
 </style>

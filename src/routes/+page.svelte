@@ -4,7 +4,9 @@
 	import { ArrowDownWideNarrow, Magnet } from 'lucide-svelte';
 
 	let attractedEl: null | EventTarget;
-	const handleAttracted = (e: CustomEvent) => (attractedEl = e.detail.node.textContent);
+	const handleAttracted = (e: CustomEvent) => {
+		attractedEl = e.detail.slotted[0].textContent;
+	};
 	const handleReleased = (e: CustomEvent) => (attractedEl = null);
 
 	const description =
