@@ -29,26 +29,37 @@ export function calculateDistance(
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
-    const x = (options.mode === "block")
-        ? Math.max(rect.left, Math.min(event.clientX, rect.right))
-        : centerX;
-    const y = (options.mode === "block")
-        ? Math.max(rect.top, Math.min(event.clientY, rect.bottom))
-        : centerY;
+    // Calculate the distance between the mouse position and the center of the element
+    const deltaX = event.clientX - centerX;
+    const deltaY = event.clientY - centerY;
 
-    const dx = event.clientX - x;
-    const dy = event.clientY - y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
+    if (options.mode === "block") {
+
+        // Calculate the distance to the closest point on the perimeter
+        const distanceToPerimeterX = (Math.abs(deltaX) - rect.width / 2) * (deltaX < 0 ? -1 : 1);
+        const distanceToPerimeterY = (Math.abs(deltaY) - rect.height / 2) * (deltaY < 0 ? -1 : 1);
+        const distanceToPerimeter = Math.sqrt(distanceToPerimeterX * distanceToPerimeterX + distanceToPerimeterY * 0.95 * distanceToPerimeterY * 0.95);
+
+        if (options.debug) console.log(`📏 Distance to perimeter: ${Math.round(distanceToPerimeter)} px`);
+
+        return {
+            distance: distanceToPerimeter,
+            dx: deltaX,
+            dy: deltaY
+        };
+    }
+
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
     if (options.debug) console.log(`📏 Distance: ${Math.round(distance)} px`);
 
-    return { dx, dy, distance };
+    return { dx: deltaX, dy: deltaY, distance };
 }
 
 
 // * Animate
 export function handleAnimation(event: MouseEvent, target: HTMLElement, transformer: HTMLElement, options: ElaimantOptions) {
-    const { triggerDist, dampenAmount, speed, easing, mode } = options;
+    const { triggerDist, dampenAmount, speed, easing } = options;
     const { dx, dy, distance } = calculateDistance(event, target, options);
 
     transformer.style.transition = 'transform' + ' ' + speed + 'ms ' + easing;
@@ -57,8 +68,7 @@ export function handleAnimation(event: MouseEvent, target: HTMLElement, transfor
         const shouldTranslate = distance < triggerDist;
 
         if (shouldTranslate) {
-            const factorCorrection = mode === 'block' ? 1.75 : 1; // adapt factor depending on the mode
-            transformer.style.transform = `translate(${dx / dampenAmount * factorCorrection}px, ${dy / dampenAmount * factorCorrection}px)`;
+            transformer.style.transform = `translate(${dx / dampenAmount}px, ${dy / dampenAmount}px)`;
         } else {
             transformer.style.transform = 'translate(0px, 0px)';
         }

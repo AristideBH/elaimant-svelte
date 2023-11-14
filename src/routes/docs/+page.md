@@ -180,9 +180,6 @@ To give you the most versatile behaviour, the `[data-attracted]` attribute is al
 
 ## Caveats
 
-- I am aware of the 'orthogonal/cross' movement when using `mode: 'block'`.
+I haven't found one yet, or already corrected them ;)
 
-  This is because the distance is calculated from the mouse position to the closest border of your element (top, bottom, left or right). Until I can figure how to do it from the closest point on the perimeter, I have no way to fix this.
-  Fortunately, I believe `mode: 'circle'` will mostly be used.
-
-If your encountered other bugs, feel free to open an issue on the Github page !
+If your encountered any bugs, feel free to open an issue on the Github page !
