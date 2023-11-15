@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Elaimant, { type ElaimantOptions } from '$lib';
+	import Elaimant, { type ElaimantOptions } from '$lib/package';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Crosshair } from 'lucide-svelte';
 

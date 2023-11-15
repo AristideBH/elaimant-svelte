@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Elaimant from '$lib';
+	import Elaimant from '$lib/package';
 	import { Button } from '$lib/components/ui/button';
 	import { ArrowDownWideNarrow, Magnet } from 'lucide-svelte';
 
