@@ -1,6 +1,6 @@
 {
 	"name": "@arisbh/elaimant",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Elaimant is a simple Sveltekit compoment that applies a magnetic attraction effect to the provided element it wraps, based on the mouse position.",
 	"author": {
 		"name": "AristideBH",
@@ -20,8 +20,8 @@
 	},
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"svelte": "./dist/index.js"
+			"types": "./dist/package/index.d.ts",
+			"svelte": "./dist/package/index.js"
 		}
 	},
 	"files": [
