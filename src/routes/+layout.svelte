@@ -9,7 +9,7 @@
 <ModeWatcher />
 
 <header
-	class="sticky top-0 z-50 flex flex-wrap items-center justify-between gap-3 py-4 border-b lg:py-8 bg-background"
+	class="container sticky top-0 z-50 flex flex-wrap items-center justify-between gap-3 py-4 border-b lg:py-8 bg-background"
 >
 	<a href="/" class="no-underline text-foreground">
 		<h1 class="tracking-wide">Elaimant</h1>
@@ -33,11 +33,13 @@
 	</nav>
 </header>
 
-<main class="py-24 grow">
-	<slot />
-</main>
+<div class="flex flex-col overflow-hidden grow">
+	<main class="container py-24 grow">
+		<slot />
+	</main>
+</div>
 
-<footer class="flex flex-wrap items-center py-4 border-t gap-x-3 gap-y-1">
+<footer class="container flex flex-wrap items-center py-4 border-t gap-x-3 gap-y-1">
 	<span class="me-auto">
 		Made with ♡ by <a href="https://github.com/AristideBH">@AristideBH</a>
 	</span>

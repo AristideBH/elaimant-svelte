@@ -8,8 +8,15 @@ export type ElaimantOptions = {
     speed: number;
     mode: 'circle' | 'block'
     dampenAmount: number;
-    debug: boolean,
     easing: string,
     mouseOnly: boolean,
+    debug?: boolean,
     attractionZone?: boolean
+}
+
+export type PublicElaimantOptions = Omit<Partial<ElaimantOptions>, 'attractionZone' | 'debug'>
+
+export type MousePosition = {
+    x: number;
+    y: number
 }

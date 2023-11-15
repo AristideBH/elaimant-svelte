@@ -78,15 +78,14 @@ const options: ElaimantOptions = {
 
 Here are the default `options` when none are passed to the Elaimant components.
 
-| Props          | Default    | Type                              | Description (WIP)                                                            |
-| -------------- | ---------- | --------------------------------- | ---------------------------------------------------------------------------- |
-| `triggerDist`  | `75 `      | `number` in pixel                 | The minimal distance at which the element is attracted                       |
-| `speed`        | `300`      | `number` in millisecond           | The speed the element will be attracted, magnet force if you want            |
-| `easing`       | `ease-out` | `string`, any CSS easing function | The easing function the element will follow upon movement                    |
-| `mode`         | `'circle'` | `'circle'` or `'block'`           | View "In depth" section below                                                |
-| `dampenAmount` | `2`        | `number`                          | The factor of movement the element will go (1 to be completely on the mouse) |
-| `mouseOnly`    | `true`     | `boolean`                         | View "In depth" section below                                                |
-| `debug`        | `false`    | `boolean`                         | Logs debugging informations in the console                                   |
+| Props          | Default    | Type                              | Description (WIP)                                         |
+| -------------- | ---------- | --------------------------------- | --------------------------------------------------------- |
+| `triggerDist`  | `75 `      | `number` in pixel                 | The minimal distance at which the element is attracted    |
+| `speed`        | `300`      | `number` in millisecond           | The speed the element will be attracted                   |
+| `easing`       | `ease-out` | `string`, any CSS easing function | The easing function the element will follow upon movement |
+| `mode`         | `'circle'` | `'circle'` or `'block'`           | View "In depth" section below                             |
+| `dampenAmount` | `2`        | `number`                          | The factor of movement the element will move              |
+| `mouseOnly`    | `true`     | `boolean`                         | View "In depth" section below                             |
 
 ### In depth
 

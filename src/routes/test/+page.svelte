@@ -1,10 +1,14 @@
 <script lang="ts">
-	import Elaimant from '$lib';
-	import { defaults } from '$lib/package/elaimant';
+	import Elaimant, { type ElaimantOptions } from '$lib';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Crosshair } from 'lucide-svelte';
 
-	let options = defaults;
+	let options: ElaimantOptions = {
+		triggerDist: 250,
+		speed: 350,
+		dampenAmount: 2,
+		mode: 'circle'
+	};
 </script>
 
 <section class="flex flex-col gap-5">
@@ -39,11 +43,6 @@
 	</label>
 
 	<label>
-		Debug
-		<input type="checkbox" name="debug" bind:checked={options.debug} />
-	</label>
-
-	<label>
 		mode
 		<select name="mode" bind:value={options.mode}>
 			<option value="circle"> Circle </option>
@@ -52,10 +51,10 @@
 	</label>
 </section>
 
-<section class="h-100% grid place-items-center gap-4 !grow-0">
+<section class="h-100% flex place-items-center gap-4 grow pb-52">
 	<Elaimant attractionZone {options}>
-		<Button variant="secondary" size="icon">
-			<Crosshair class="w-4 h-4"></Crosshair>
+		<Button variant="secondary">
+			<Crosshair class="w-4 h-4" />
 		</Button>
 	</Elaimant>
 </section>

@@ -1,8 +1,8 @@
 // Reexport your entry components here
 import Elaimant from "./package/Elaimant.svelte";
-import type { ElaimantOptions as MandatoryOptions } from "./package/types";
+import type { PublicElaimantOptions } from "./package/types";
 
-type ElaimantOptions = Partial<Omit<MandatoryOptions, 'attractionZone'>>
+type ElaimantOptions = PublicElaimantOptions
 
 export default Elaimant
 export type { ElaimantOptions }
