@@ -1,17 +1,13 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { defaults, elaimant, type ElaimantOptions } from './elaimant';
-	import { getSlottedNodes } from './helpers';
+	import { getSlottedNodes, optionsMerger } from './helpers';
 
 	// * PROPS
 	let renderElaimant = true;
 	export let options: Partial<Omit<ElaimantOptions, 'attractionZone'>> = defaults;
 	export let attractionZone = false;
 	export let attracted = false;
-
-	// * OPTIONS MERGER
-	const mergedOptions: ElaimantOptions = { ...defaults, ...options };
-	if (attractionZone) mergedOptions.attractionZone = attractionZone;
 
 	// * SLOT CHECK
 	if (!$$slots.default) {
@@ -24,13 +20,17 @@
 	const handleElaimant = (e: CustomEvent) => {
 		const slotted = getSlottedNodes(e.target as HTMLElement);
 
-		if (e.type === 'attracted') {
-			attracted = true;
-			dispatch('attracted', { slotted: slotted, options: mergedOptions });
-		} else if (e.type === 'released') {
-			attracted = false;
-			const slotted = getSlottedNodes(e.target as HTMLElement);
-			dispatch('released', { slotted: slotted, options: mergedOptions });
+		// if (e.type === 'attracted') {
+		// 	attracted = true;
+		// 	dispatch(e.type, { slotted: slotted, options: optionsMerger(options, attractionZone) });
+		// } else if (e.type === 'released') {
+		// 	attracted = false;
+		// 	dispatch(e.type, { slotted: slotted, options: optionsMerger(options, attractionZone) });
+		// }
+
+		if (e.type === 'attracted' || e.type === 'released') {
+			attracted = e.type === 'attracted';
+			dispatch(e.type, { slotted, options: optionsMerger(options, attractionZone) });
 		}
 	};
 </script>
@@ -38,7 +38,7 @@
 {#if renderElaimant}
 	<div
 		data-elaimant
-		use:elaimant={mergedOptions}
+		use:elaimant={optionsMerger(options, attractionZone)}
 		on:released={handleElaimant}
 		on:attracted={handleElaimant}
 	>
@@ -70,5 +70,6 @@
 		pointer-events: none;
 		border: var(--zone-border, 2px dashed hsla(0, 0%, 100%, 0.15));
 		background: var(--zone-bg, none);
+		display: flex;
 	}
 </style>

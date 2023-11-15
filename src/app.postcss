@@ -125,7 +125,10 @@
 }
 
 main:has(section) {
-	@apply space-y-48;
+	@apply flex flex-col gap-52;
+}
+main:has(section) section:last-of-type {
+	@apply flex-grow justify-center;
 }
 
 hr {

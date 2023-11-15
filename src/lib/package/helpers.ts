@@ -1,4 +1,14 @@
-import { type ElaimantOptions } from "./elaimant";
+import { defaults, type ElaimantOptions } from "./elaimant";
+
+export const optionsMerger = (options: Partial<Omit<ElaimantOptions, 'attractionZone'>>, attractionZone: boolean): ElaimantOptions => {
+    const merged: ElaimantOptions = { ...defaults, ...options };
+    if (attractionZone) merged.attractionZone = attractionZone;
+    return merged
+}
+
+export const shouldStart = (options: ElaimantOptions) => {
+    return !options.mouseOnly || window.matchMedia('(hover: hover)').matches;
+}
 
 // * Dynamic styling of AttractionZone
 export const styleAttractionZone = (
@@ -10,6 +20,9 @@ export const styleAttractionZone = (
             const { width, height } = target.getBoundingClientRect()
             attractionZone.style.width = width + "px"
             attractionZone.style.height = height + "px"
+        } else {
+            attractionZone.style.width = 'unset';
+            attractionZone.style.height = 'unset';
         }
 
         attractionZone.style.padding = options.triggerDist + "px";

@@ -1,5 +1,5 @@
 import type { ActionReturn } from 'svelte/action';
-import { handleAnimation, calculateDistance, styleAttractionZone } from "./helpers";
+import { handleAnimation, calculateDistance, styleAttractionZone, shouldStart } from "./helpers";
 
 // * TYPES
 interface Attributes {
@@ -41,10 +41,9 @@ export function elaimant(
     if (!transformer) return {}
 
     let isAttracted = false
-
     styleAttractionZone(target, options)
 
-    function initElaimant(event: MouseEvent) {
+    function startAttraction(event: MouseEvent, options: ElaimantOptions) {
         handleAnimation(event, target, transformer, options);
 
         const { triggerDist } = options;
@@ -54,10 +53,15 @@ export function elaimant(
             for (const node of Array.from(transformer.children)) {
                 node.setAttribute(`data-attracted`, !isAttracted ? "false" : "true")
             }
-            (target.querySelector('[data-attractionZone]') as HTMLElement)
+            const attractionZone = target.querySelector('[data-attractionZone]');
+
+            if (!attractionZone) return
+
+            (attractionZone as HTMLElement)
                 .setAttribute(`data-attracted`, !isAttracted ? "false" : "true")
 
         }
+
         attractedAttribute(isAttracted)
 
         if (distance < triggerDist && !isAttracted) {
@@ -71,17 +75,27 @@ export function elaimant(
         }
     }
 
-    if (!options.mouseOnly || window.matchMedia('(hover: hover)').matches) {
-        window.addEventListener("mousemove", initElaimant);
+    if (shouldStart(options)) {
+        window.addEventListener("mousemove", (e) => startAttraction(e, options));
     }
 
     return {
-        update() { },
+        update(updatedOptions) {
+            styleAttractionZone(target, updatedOptions);
+            window.removeEventListener('mousemove', (e) => startAttraction(e, options));
+
+            if (shouldStart(updatedOptions)) {
+                window.addEventListener("mousemove", (e) => startAttraction(e, updatedOptions));
+            }
+
+            options = updatedOptions;
+        },
         destroy() {
             if (window.matchMedia('(hover: hover)').matches) {
-                window.removeEventListener('mousemove', initElaimant);
+                window.removeEventListener('mousemove', (e) => startAttraction(e, options));
             }
         },
     };
+
 }
 
