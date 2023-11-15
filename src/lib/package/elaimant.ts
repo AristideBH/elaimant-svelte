@@ -9,7 +9,7 @@ export const defaults: ElaimantOptions = {
     mode: "circle",
     dampenAmount: 2,
     easing: "ease-out",
-    enableOnTouch: true,
+    enableOnTouch: false,
 }
 
 

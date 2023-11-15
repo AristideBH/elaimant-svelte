@@ -63,7 +63,7 @@ Or construct an object with the type `ElaimantOptions`, and use it inside the co
 ```ts
 import Elaimant, type { ElaimantOptions } from '@arisbh/elaimant';
 
-const options: ElaimantOptions = {
+const customOptions: ElaimantOptions = {
 	triggerDist: 75,
 	speed: 300
 	//...
@@ -71,21 +71,21 @@ const options: ElaimantOptions = {
 ```
 
 ```svelte
-<Elaimant {options}>
+<Elaimant options={customOptions}>
 	<!-- ... Your content -->
 </Elaimant>
 ```
 
 Here are the default `options` when none are passed to the Elaimant components.
 
-| Props          | Default    | Type                              | Description (WIP)                                         |
-| -------------- | ---------- | --------------------------------- | --------------------------------------------------------- |
-| `triggerDist`  | `75 `      | `number` in pixel                 | The minimal distance at which the element is attracted    |
-| `speed`        | `300`      | `number` in millisecond           | The speed the element will be attracted                   |
-| `easing`       | `ease-out` | `string`, any CSS easing function | The easing function the element will follow upon movement |
-| `mode`         | `'circle'` | `'circle'` or `'block'`           | View "In depth" section below                             |
-| `dampenAmount` | `2`        | `number`                          | The factor of movement the element will move              |
-| `mouseOnly`    | `true`     | `boolean`                         | View "In depth" section below                             |
+| Props           | Default    | Type                              | Description (WIP)                                         |
+| --------------- | ---------- | --------------------------------- | --------------------------------------------------------- |
+| `triggerDist`   | `75 `      | `number` in pixel                 | The minimal distance at which the element is attracted    |
+| `speed`         | `300`      | `number` in millisecond           | The speed the element will be attracted                   |
+| `easing`        | `ease-out` | `string`, any CSS easing function | The easing function the element will follow upon movement |
+| `mode`          | `'circle'` | `'circle'` or `'block'`           | View "In depth" section below                             |
+| `dampenAmount`  | `2`        | `number`                          | The factor of movement the element will move              |
+| `enableOnTouch` | `false`    | `boolean`                         | View "In depth" section below                             |
 
 ### In depth
 
@@ -104,7 +104,7 @@ Elaimant provides two mode to interpret the attraction zone:
 
 ---
 
-#### mouseOnly
+#### enableOnTouch
 
 Smartphones browsers do not have a `hover` state on elements, thus, this effect is not quite appropriate.
 By default, if the module detects unsupported `hover`, no event listener will be added to your content, keeping the calculations to zero.
