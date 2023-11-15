@@ -18,7 +18,7 @@ export const optionsMerger = (options: PublicElaimantOptions, props: Props) => {
 
 // * Should the action run depending on system hover and options.mouseOnly 
 export const shouldStart = (options: ElaimantOptions) => {
-    return !options.mouseOnly || window.matchMedia('(hover: hover)').matches;
+    return options.enableOnTouch || window.matchMedia('(hover: hover)').matches;
 }
 
 

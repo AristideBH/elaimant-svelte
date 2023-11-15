@@ -9,7 +9,7 @@ export type ElaimantOptions = {
     mode: 'circle' | 'block'
     dampenAmount: number;
     easing: string,
-    mouseOnly: boolean,
+    enableOnTouch: boolean,
     debug?: boolean,
     attractionZone?: boolean
 }

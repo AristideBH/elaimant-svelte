@@ -40,7 +40,7 @@
 	<div class="flex flex-col items-center gap-32 md:flex-row gap-y-60 justify-evenly">
 		<Elaimant
 			attractionZone
-			options={{ triggerDist: 100, mouseOnly: false }}
+			options={{ triggerDist: 100, enableOnTouch: true }}
 			on:attracted={handleElaimant}
 			on:released={handleElaimant}
 			let:attracted
@@ -55,7 +55,7 @@
 
 		<Elaimant
 			attractionZone
-			options={{ mode: 'block', mouseOnly: false }}
+			options={{ mode: 'block', enableOnTouch: true }}
 			on:attracted={handleElaimant}
 			on:released={handleElaimant}
 			let:attracted
