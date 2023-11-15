@@ -20,3 +20,5 @@ export type MousePosition = {
     x: number;
     y: number
 }
+
+export type Props = Array<{ [key: string]: boolean | undefined }>

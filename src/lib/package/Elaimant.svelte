@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { PublicElaimantOptions } from './types';
-	import { createEventDispatcher } from 'svelte';
 	import { defaults, elaimant } from './elaimant';
 	import { getSlottedNodes, optionsMerger } from './helpers';
+	import { createEventDispatcher } from 'svelte';
 
 	// * PROPS
 	export let options: PublicElaimantOptions = defaults;
@@ -41,12 +41,12 @@
 		on:released={handleElaimant}
 		on:attracted={handleElaimant}
 	>
-		<div data-attractionTransformer>
-			<slot {attracted} />
-		</div>
 		{#if attractionZone}
 			<div data-attractionZone aria-hidden="true" />
 		{/if}
+		<div data-attractionTransformer>
+			<slot {attracted} />
+		</div>
 	</div>
 {/if}
 
@@ -54,15 +54,12 @@
 	[data-elaimant] {
 		width: fit-content;
 		height: auto;
-		/* these two first lines are necessary to get your slotted element's width and height properly*/
-		/* overflow: hidden; */
 		position: relative;
 	}
 
 	[data-attractionZone] {
 		box-sizing: content-box;
 		position: absolute;
-		z-index: -1;
 		top: 50%;
 		left: 50%;
 		translate: -50% -50%;

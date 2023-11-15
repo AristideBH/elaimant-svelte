@@ -15,7 +15,6 @@
 		<h1 class="tracking-wide">Elaimant</h1>
 	</a>
 	<nav class="flex gap-1.5 ms-auto">
-		<!-- <code class="hidden px-3 sm:block bg-muted">npm i @arisbh/elaimant</code> -->
 		<Button variant="outline" class="no-underline" href="/docs" title="Documentation">
 			<Book class="w-4 h-4" />
 			<span class="hidden sm:block sm:ml-2">Documentation</span>
