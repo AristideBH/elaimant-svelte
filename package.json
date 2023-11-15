@@ -25,9 +25,9 @@
 		}
 	},
 	"files": [
-		"dist",
-		"!dist/**/*.test.*",
-		"!dist/**/*.spec.*"
+		"dist/package",
+		"!dist/package/**/*.test.*",
+		"!dist/package/**/*.spec.*"
 	],
 	"peerDependencies": {
 		"svelte": "^4.0.0"
