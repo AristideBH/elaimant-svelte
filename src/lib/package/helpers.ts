@@ -1,4 +1,5 @@
-import { defaults, type ElaimantOptions } from "./elaimant";
+import type { ElaimantOptions } from "./types";
+import { defaults } from "./elaimant";
 
 export const optionsMerger = (options: Partial<Omit<ElaimantOptions, 'attractionZone'>>, attractionZone: boolean): ElaimantOptions => {
     const merged: ElaimantOptions = { ...defaults, ...options };

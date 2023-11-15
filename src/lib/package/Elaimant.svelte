@@ -1,6 +1,7 @@
 <script lang="ts">
+	import type { ElaimantOptions } from './types';
 	import { createEventDispatcher } from 'svelte';
-	import { defaults, elaimant, type ElaimantOptions } from './elaimant';
+	import { defaults, elaimant } from './elaimant';
 	import { getSlottedNodes, optionsMerger } from './helpers';
 
 	// * PROPS

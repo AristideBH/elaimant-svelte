@@ -1,23 +1,6 @@
 import type { ActionReturn } from 'svelte/action';
+import type { ElaimantOptions, Attributes } from './types';
 import { handleAnimation, calculateDistance, styleAttractionZone, shouldStart } from "./helpers";
-
-// * TYPES
-interface Attributes {
-    'on:attracted': (e: CustomEvent<boolean>) => void;
-    'on:released': (e: CustomEvent<boolean>) => void;
-}
-
-export type ElaimantOptions = {
-    triggerDist: number;
-    speed: number;
-    mode: 'circle' | 'block'
-    dampenAmount: number;
-    debug: boolean,
-    easing: string,
-    mouseOnly: boolean,
-    attractionZone?: boolean
-}
-
 
 // * DEFAULT PARAMETERS
 export const defaults: ElaimantOptions = {
