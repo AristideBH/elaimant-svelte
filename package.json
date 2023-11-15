@@ -20,8 +20,8 @@
 	},
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"svelte": "./dist/index.js"
+			"types": "./dist/package/index.d.ts",
+			"svelte": "./dist/package/index.js"
 		}
 	},
 	"files": [
