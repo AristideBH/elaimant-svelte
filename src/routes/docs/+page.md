@@ -178,6 +178,8 @@ You can also style them globaly defining them in your `:root` CSS selector.
 
 To give you the most versatile behaviour, the `[data-attracted]` attribute is also added to the attraction zone. Make sure your to target them indivually when necessary.
 
+You can target the attraction zone in CSS with `[data-attractionZone]` selector.
+
 ## Caveats
 
 I haven't found one yet, or already corrected them ;)

@@ -36,13 +36,10 @@ export function elaimant(
             for (const node of Array.from(transformer.children)) {
                 node.setAttribute(`data-attracted`, !isAttracted ? "false" : "true")
             }
-            const attractionZone = target.querySelector('[data-attractionZone]');
 
+            const attractionZone = target.querySelector('[data-attractionZone]') as HTMLElement;
             if (!attractionZone) return
-
-            (attractionZone as HTMLElement)
-                .setAttribute(`data-attracted`, !isAttracted ? "false" : "true")
-
+            (attractionZone).setAttribute(`data-attracted`, !isAttracted ? "false" : "true")
         }
 
         attractedAttribute(isAttracted)
