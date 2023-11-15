@@ -64,7 +64,7 @@
 		left: 50%;
 		translate: -50% -50%;
 		pointer-events: none;
-		border: var(--zone-border, 2px dashed hsla(0, 0%, 100%, 0.15));
+		border: var(--zone-border, 2px dashed hsla(0, 0%, 50%, 0.15));
 		background: var(--zone-bg, none);
 	}
 </style>
